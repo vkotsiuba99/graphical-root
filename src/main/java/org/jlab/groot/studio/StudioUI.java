@@ -88,7 +88,7 @@ public class StudioUI implements MouseListener,ActionListener {
         canvasPane.add(drawCanvas,BorderLayout.CENTER);
 
 
-        splitPane.setLeftComponent(navigationPane);
+        //splitPane.setLeftComponent(navigationPane);
         splitPane.setRightComponent(canvasPane);
 
 
@@ -104,7 +104,10 @@ public class StudioUI implements MouseListener,ActionListener {
         jtreeAnalyzer = new JTree(topa);
         JScrollPane treeViewAnalyzer = new JScrollPane(jtreeAnalyzer);
 
-        //JSplitPane treeSplit =
+        JSplitPane splitPaneNavigation = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        splitPaneNavigation.setTopComponent(jtree);
+        splitPaneNavigation.setBottomComponent(jtreeAnalyzer);
+        splitPane.setLeftComponent(splitPaneNavigation);
 
         navigationPane.setBorder(new EmptyBorder(5,5,5,5));
         navigationPane.setLayout(new BorderLayout());
@@ -173,16 +176,20 @@ public class StudioUI implements MouseListener,ActionListener {
     public void addCut(){
         System.out.println("doing some stuff...");
         CutPanel cutPane = new CutPanel(studioTree);
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("Cut Editor");
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(cutPane);
         frame.pack();
+        frame.setLocationRelativeTo(this.frame);
+        frame.setMinimumSize(frame.getSize());
         frame.setVisible(true);
     }
 
     public void updateTree(){
         DefaultTreeModel model = new DefaultTreeModel(studioTree.getTree());
         this.jtree.setModel(model);
+        DefaultTreeModel modelAnalyzer = new DefaultTreeModel(this.analyzer.getTree());
+        this.jtreeAnalyzer.setModel(modelAnalyzer);
     }
 
     public static void main(String[] args){
@@ -227,8 +234,13 @@ public class StudioUI implements MouseListener,ActionListener {
 
     public void addDescriptor(){
         DescriptorPanel  panel = null;
+
         panel = new DescriptorPanel(studioTree,analyzer,2);
         JFrame frame = new JFrame("Edit Histogram");
+
+        panel = new DescriptorPanel(studioTree,analyzer);
+
+
         frame.add(panel);
         frame.pack();
         frame.setLocationRelativeTo(this.frame);
