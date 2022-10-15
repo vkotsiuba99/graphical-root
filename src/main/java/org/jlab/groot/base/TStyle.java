@@ -1,5 +1,7 @@
 package org.jlab.groot.base;
 
+import java.awt.Color;
+
 public class TStyle {
 
     public static Attributes  grootStyle = TStyle.createAttributes();
@@ -18,6 +20,10 @@ public class TStyle {
 
     public static Attributes getStyle(){
         return grootStyle;
+    }
+
+    public static Color getColor(int index){
+        return ColorPalette.getColor(index);
     }
 
 }

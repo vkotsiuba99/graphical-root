@@ -42,9 +42,10 @@ public class GraphicsAxisLabels {
      * @return
      */
     public GraphicsAxisLabels setFontSize(int size){
-        for(LatexText t : this.axisLabels){
-            t.setFontSize(size);
-        }
+        //for(LatexText t : this.axisLabels){
+        //    t.setFontSize(size);
+        //}
+        this.axisFontSize = size;
         return this;
     }
     /**
@@ -91,8 +92,10 @@ public class GraphicsAxisLabels {
         if(significantFigures<0) significantFigures = -1;
 
         for(int loop = 0; loop < axisTicks.size(); loop++){
-            axisLabels.add(LatexText.createFromDouble(axisTicks.get(loop),
-                    significantFigures+1));
+            LatexText text = LatexText.createFromDouble(axisTicks.get(loop),
+                    significantFigures+1);
+            text.setFontSize(this.axisFontSize);
+            axisLabels.add(text);
         }
     }
     /**

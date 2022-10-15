@@ -23,7 +23,7 @@ public class Dimension2D {
         dimensions.get(1).setMinMax(min2, max2);
     }
 
-    public Dimension1D getDimension(int index){
+    public Dimension1D  getDimension(int index){
         return this.dimensions.get(index);
     }
 
@@ -36,7 +36,14 @@ public class Dimension2D {
         dimensions.get(1).grow(y);
     }
 
-    public void copy(Dimension2D object){
+    public void combine(Dimension2D dim){
+        this.getDimension(0).grow(dim.getDimension(0).getMin());
+        this.getDimension(0).grow(dim.getDimension(0).getMax());
+        this.getDimension(1).grow(dim.getDimension(1).getMin());
+        this.getDimension(1).grow(dim.getDimension(1).getMax());
+    }
+
+    public void  copy(Dimension2D object){
         this.set(object.getDimension(0).getMin(),
                 object.getDimension(0).getMax(),
                 object.getDimension(1).getMin(),

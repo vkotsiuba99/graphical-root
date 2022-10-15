@@ -39,6 +39,10 @@ public class Dimension1D {
         return this.dimMax;
     }
 
+    public void copy(Dimension1D dim){
+        this.setMinMax(dim.getMin(), dim.getMax());
+    }
+
     public double getFraction(double point){
         if(this.isLog==false)
             return (point-this.dimMin)/(this.dimMax-this.dimMin);
@@ -170,4 +174,8 @@ public class Dimension1D {
         setMinMax(this.dimMin-valueL,this.dimMax+valueH);
     }
 
+    @Override
+    public String toString(){
+        return String.format("Dimension1D :  %8.4f  %8.4f", this.dimMin,this.dimMax);
+    }
 }
