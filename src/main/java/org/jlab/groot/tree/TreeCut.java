@@ -15,6 +15,10 @@ public class TreeCut {
     Expression expr = null;
     private boolean  isCutActive = true;
 
+    public ArrayList<String> getBranches(){
+        return (ArrayList<String>) cutVariables;
+    }
+
     Operator operatorGT = new Operator(">", 2, true, Operator.PRECEDENCE_MULTIPLICATION) {
         @Override
         public double apply(final double... args) {
@@ -39,7 +43,7 @@ public class TreeCut {
         }
     };
 
-    Operator operatorAND = new Operator("&", 2, true, Operator.PRECEDENCE_ADDITION) {
+    Operator operatorAND = new Operator("&&", 2, true, Operator.PRECEDENCE_ADDITION) {
         @Override
         public double apply(final double... args) {
             if(args[0]>0.0&&args[1]>0.0) return 1.0;
@@ -47,7 +51,7 @@ public class TreeCut {
         }
     };
 
-    Operator operatorOR = new Operator("|", 2, true, Operator.PRECEDENCE_ADDITION) {
+    Operator operatorOR = new Operator("||", 2, true, Operator.PRECEDENCE_ADDITION) {
         @Override
         public double apply(final double... args) {
             if(args[0]>0.0||args[1]>0.0) return 1.0;
@@ -85,6 +89,15 @@ public class TreeCut {
 
     public String getExpression(){
         return cutExpression;
+    }
+
+    public void setExpression(String expression){
+        this.cutExpression = expression;
+        init();
+    }
+
+    public void setName(String name){
+        this.cutName = name;
     }
 
     final void init(){
