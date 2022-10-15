@@ -44,7 +44,10 @@ public class StudioUI implements MouseListener,ActionListener {
     EmbeddedCanvas drawCanvas = null;
     JFrame  frame = null;
     Tree    studioTree = null;
+
     JTree   jtree = null;
+    JTree   jtreeAnalyzer = null;
+
     JPanel  studioPane = null;
     JPanel  statusPane = null;
     JMenuBar menuBar = null;
@@ -95,6 +98,14 @@ public class StudioUI implements MouseListener,ActionListener {
         jtree = new JTree(top);
         jtree.addMouseListener(this);
         JScrollPane treeView = new JScrollPane(jtree);
+
+        DefaultMutableTreeNode topa =
+                analyzer.getTree();
+        jtreeAnalyzer = new JTree(topa);
+        JScrollPane treeViewAnalyzer = new JScrollPane(jtreeAnalyzer);
+
+        //JSplitPane treeSplit =
+
         navigationPane.setBorder(new EmptyBorder(5,5,5,5));
         navigationPane.setLayout(new BorderLayout());
         navigationPane.add(treeView,BorderLayout.CENTER);
@@ -216,10 +227,12 @@ public class StudioUI implements MouseListener,ActionListener {
 
     public void addDescriptor(){
         DescriptorPanel  panel = null;
-        panel = new DescriptorPanel(studioTree,analyzer);
-        JFrame frame = new JFrame();
+        panel = new DescriptorPanel(studioTree,analyzer,2);
+        JFrame frame = new JFrame("Edit Histogram");
         frame.add(panel);
         frame.pack();
+        frame.setLocationRelativeTo(this.frame);
+        frame.setMinimumSize(frame.getSize());
         frame.setVisible(true);
     }
 
