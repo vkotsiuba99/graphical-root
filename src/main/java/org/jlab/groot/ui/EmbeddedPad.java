@@ -32,6 +32,10 @@ public class EmbeddedPad {
         return this;
     }
 
+    public void reset(){
+        this.padDataSets.clear();
+    }
+
     public void draw(Graphics2D g2d){
         //update(g2d);
 
