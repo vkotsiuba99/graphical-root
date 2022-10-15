@@ -16,6 +16,10 @@ public class TreeSelector {
         treeCuts.put(name, new TreeCut(name,expression,branches));
     }
 
+    public void addCut(TreeCut cut){
+        this.treeCuts.put(cut.getName(), cut);
+    }
+
     public TreeCut getCut(String cut){
         return treeCuts.get(cut);
     }
@@ -43,6 +47,10 @@ public class TreeSelector {
             }
         }
         return cuts;
+    }
+
+    public Map<String,TreeCut>  getSelectorCuts(){
+        return this.treeCuts;
     }
 
     public void reset(){
