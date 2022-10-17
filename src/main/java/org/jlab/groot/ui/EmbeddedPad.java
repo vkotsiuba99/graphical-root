@@ -1,5 +1,6 @@
 package org.jlab.groot.ui;
 
+import org.jlab.groot.graphics.Histogram2DPlotter;
 import org.jlab.groot.graphics.IDataSetPlotter;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -94,7 +95,7 @@ public class EmbeddedPad {
 
         axisFrame.update(g2d);
         for(Map.Entry<String,IDataSetPlotter>  entry : padDataSets.entrySet()){
-            entry.getValue().draw(g2d, axisFrame);
+            //  entry.getValue().draw(g2d, axisFrame);
         }
 
         axisFrame.draw(g2d, padDimensions);
