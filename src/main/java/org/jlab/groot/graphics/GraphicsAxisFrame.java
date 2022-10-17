@@ -26,6 +26,9 @@ public class GraphicsAxisFrame {
         axisFrameAxis.get(2).setAxisFontSize(10);
     }
 
+    public Dimension2D getFrameDimensions(){
+        return this.axisFrameDimension;
+    }
 
     public void setFrameDimensions(double xmin, double xmax, double ymin, double ymax){
         this.axisFrameDimension.getDimension(0).setMinMax(xmin, xmax);
