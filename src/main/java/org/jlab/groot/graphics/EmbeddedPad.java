@@ -74,7 +74,10 @@ public class EmbeddedPad {
                     axis.getDimension(1).getMin(),
                     axis.getDimension(1).getMax()
             );
-
+            axisFrame.getAxisZ().setRange(
+                    axis.getDimension(2).getMin(),
+                    axis.getDimension(2).getMax()
+            );
             datasetPlotters.get(0).draw(g2d, axisFrame);
         }
 
