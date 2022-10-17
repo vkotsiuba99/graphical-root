@@ -13,6 +13,7 @@ import org.jlab.groot.data.IDataSet;
 import org.jlab.groot.math.Dimension2D;
 import org.jlab.groot.math.Dimension3D;
 import org.jlab.groot.math.Func1D;
+import org.jlab.groot.ui.PaveText;
 
 public class EmbeddedPad {
 
@@ -120,6 +121,15 @@ public class EmbeddedPad {
         g2d.setClip(null);
         //System.out.println("PLOTTERS SIZE = " + this.datasetPlotters.size());
         axisFrame.drawAxis(g2d, padMargins);
+
+        if(this.datasetPlotters.get(0).getDataSet() instanceof H1F){
+            PaveText statBox = this.datasetPlotters.get(0).getDataSet().getStatBox();
+            statBox.updateDimensions(g2d);
+            int x = (int) (this.padDimensions.getDimension(0).getMax() - statBox.getBounds().getDimension(0).getLength()-10);
+            int y = (int) (this.padDimensions.getDimension(1).getMin() + 10) ;
+            statBox.setPosition(x, y);
+            statBox.drawPave(g2d, x, y);
+        }
     }
 
     public EmbeddedPad setAutoScale(){
