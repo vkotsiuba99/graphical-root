@@ -5,6 +5,7 @@ import java.util.TreeMap;
 import org.jlab.groot.base.AttributeType;
 import org.jlab.groot.base.Attributes;
 import org.jlab.groot.math.Axis;
+import org.jlab.groot.math.Func1D;
 import org.jlab.groot.math.StatNumber;
 
 public class H1F  implements IDataSet {
@@ -13,13 +14,16 @@ public class H1F  implements IDataSet {
     Axis  yAxis;
     float[]   histogramData;
     float[]   histogramDataError;
-    String     histTitle = "";
+    String     histTitle  = "";
     String     histXTitle = "";
     String     histYTitle = "";
-    String     histName  = "";
-    int        underFlow = 0;
-    int        overFlow  = 0;
+    String     histName   = "";
+    int        histogramUnderFlow = 0;
+    int        histogramOverFlow  = 0;
+
     Attributes hAttr     = new Attributes();
+
+    Func1D     fittedFunction = null;
 
     /**
      * The default constructor, which creates a Histogram1D object with the Name "default",
@@ -203,6 +207,7 @@ public class H1F  implements IDataSet {
      *
      * @param name		The desired name of the histogram
      */
+    @Override
     public final void setName(String name) {
         histName = name;
     }
@@ -381,6 +386,12 @@ public class H1F  implements IDataSet {
         if (bin >= 0 && bin < histogramData.length) {
             histogramData[bin] = (float) (histogramData[bin] + 1.0);
             histogramDataError[bin] = (float) Math.sqrt(Math.abs(histogramData[bin]));
+        } else {
+            if(bin<0){
+                this.histogramUnderFlow++;
+            } else {
+                this.histogramOverFlow++;
+            }
         }
     }
 
@@ -395,8 +406,15 @@ public class H1F  implements IDataSet {
         if (bin >= 0 && bin < histogramData.length) {
             histogramData[bin] = (float) (histogramData[bin] + weight);
             histogramDataError[bin] = (float) Math.sqrt(Math.abs(histogramData[bin]));
+        } else {
+            if(bin<0){
+                this.histogramUnderFlow++;
+            } else {
+                this.histogramOverFlow++;
+            }
         }
     }
+
     public void add(H1F h){
         if(h.getAxis().getNBins()==this.getXaxis().getNBins()){
             for(int loop = 0; loop < this.histogramData.length; loop++){
@@ -479,6 +497,12 @@ public class H1F  implements IDataSet {
         if ((bin >= 0) && (bin < histogramData.length)) {
             histogramData[bin] = (float) value;
             histogramDataError[bin] = (float) Math.sqrt(Math.abs(histogramData[bin]));
+        } else {
+            if(bin<0){
+                this.histogramUnderFlow++;
+            } else {
+                this.histogramOverFlow++;
+            }
         }
     }
     /**
@@ -707,6 +731,7 @@ public class H1F  implements IDataSet {
         }
     }
 
+    @Override
     public String getName() {
         return this.histName;
     }
@@ -749,8 +774,9 @@ public class H1F  implements IDataSet {
 
     /**
      * ROOT COMPATABILITY Functions
+     * @param color
+     * @return
      */
-
     public H1F setFillColor(int color){
         this.hAttr.add(AttributeType.FILL_COLOR, color);
         return this;
