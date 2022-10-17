@@ -4,7 +4,6 @@ import org.jlab.groot.base.Attributes;
 import org.jlab.groot.ui.PaveText;
 
 public interface IDataSet {
-
     void        setName(String name);
     String      getName();
     int         getDataSize(int axis);

@@ -1,17 +1,13 @@
 package org.jlab.groot.tree;
 
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JTree;
 import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class Tree implements ITree {
 
@@ -28,6 +24,7 @@ public class Tree implements ITree {
      * returns the name of the tree
      * @return
      */
+    @Override
     public String getName(){return this.treeName;}
 
     public void addBranch(Branch br){
@@ -38,6 +35,7 @@ public class Tree implements ITree {
         addBranch(new Branch(name,desc,unit));
     }
 
+    @Override
     public List<String> getListOfBranches() {
         List<String> listOfBranches = new ArrayList<String>();
         for(Map.Entry<String,Branch> entry : treeBranches.entrySet()){
@@ -65,14 +63,17 @@ public class Tree implements ITree {
         return iconMap;
     }
 
+    @Override
     public Branch getBranch(String name) {
         return this.treeBranches.get(name);
     }
 
+    @Override
     public void reset() {
 
     }
 
+    @Override
     public boolean readNext() {
         return false;
     }
@@ -91,6 +92,7 @@ public class Tree implements ITree {
         System.out.println(toString());
     }
 
+    @Override
     public void configure() {
         System.out.println("[Tree] --> generic tree class does not require configuring.");
     }

@@ -72,6 +72,7 @@ public class FitterFunction implements FCNBase {
                 if(options.contains("R")==true){
                     normalization = yv;
                 }
+
                 if(options.contains("N")==true){
                     normalization = y;
                 }
