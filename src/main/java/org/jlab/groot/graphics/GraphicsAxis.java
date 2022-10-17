@@ -10,7 +10,7 @@ import org.jlab.groot.math.Dimension1D;
 import org.jlab.groot.math.Dimension2D;
 import org.jlab.groot.ui.LatexText;
 
-public class GraphAxis {
+public class GraphicsAxis {
 
     private final  Dimension1D                  axisRange   = new Dimension1D();
     private final  Dimension1D              axisDimension   = new Dimension1D();
@@ -31,7 +31,7 @@ public class GraphAxis {
     /**
      * default
      */
-    public GraphAxis(){
+    public GraphicsAxis(){
         this.setDimension( 0, 100);
         this.setRange( 0.0, 1.0);
         //this.axisLabels.setFontName("Avenir");
@@ -43,7 +43,7 @@ public class GraphAxis {
      * @param xmax
      * @return
      */
-    public final GraphAxis setDimension(int xmin, int xmax){
+    public final GraphicsAxis setDimension(int xmin, int xmax){
         this.axisDimension.setMinMax(xmin, xmax);
         return this;
     }
@@ -58,13 +58,14 @@ public class GraphAxis {
      * @param max
      * @return
      */
-    public final GraphAxis setRange(double min, double max){
+    public final GraphicsAxis setRange(double min, double max){
         this.axisRange.setMinMax(min, max);
         if(this.isLogarithmic==true){
             List<Double> ticks = axisRange.getDimensionTicksLog(this.numberOfMajorTicks);
             //axisLabels.updateLog(ticks);
         } else {
             List<Double> ticks = axisRange.getDimensionTicks(this.numberOfMajorTicks);
+            this.axisTicks.init(ticks);
             //axisLabels.update(ticks);
         }
         return this;
@@ -117,8 +118,14 @@ public class GraphAxis {
 
     public void setAxisFont(String fontname){
         axisLabelFont.setFontName(fontname);
-
+        axisTicks.updateFont(axisLabelFont);
     }
+
+    public void setAxisFontSize(int size){
+        axisLabelFont.setFontSize(size);
+        axisTicks.updateFont(axisLabelFont);
+    }
+
     public int  getSize(Graphics2D g2d, boolean vertical){
         if(vertical==true){
             //return this.axisLabels.getAxisMaxWidth(g2d);
@@ -147,32 +154,39 @@ public class GraphAxis {
     public int getAxisBounds(Graphics2D g2d){
 
         double axisBounds = 0.0;
+
         List<LatexText> axisTexts = axisTicks.getAxisTexts();
 
         double maxW = 0.0;
         double maxH = 0.0;
+
         for(LatexText text : axisTexts){
-            Rectangle2D bounds = text.getBounds(g2d);
+            Rectangle2D bounds = text.getBoundsNumber(g2d);
+            //System.out.println(" bounds = " + (int) bounds.getHeight() );
             if(bounds.getWidth()>maxW) maxW = bounds.getWidth();
             if(bounds.getHeight()>maxH) maxH = bounds.getHeight();
         }
+
         if(this.isVertical==true){
             axisBounds = maxW + axisTextOffset;
         }  else {
             axisBounds = maxH + axisTextOffset;
         }
 
+        //System.out.println( " Axis : " + axisTitle + "  Max = " +  isVertical +"  " + (int) maxW + "  " + (int) maxH  + "  " + (int) axisBounds);
         return (int) axisBounds;
     }
+
 
     public void drawAxis(Graphics2D g2d, int x, int y){
 
         g2d.setColor(Color.BLACK);
-        List<Double>  ticks = axisRange.getDimensionTicks(10);
-        //GraphicsAxisString  gStrings = new GraphicsAxisString();
-        //gStrings.init(ticks);
-        axisTicks.init(ticks);
+        //List<Double>  ticks = axisRange.getDimensionTicks(this.numberOfMajorTicks);
+        //axisTicks.init(ticks);
+        this.setAxisDivisions(10);
+        this.updateAxisDivisions(g2d);
 
+        List<Double>     ticks = axisTicks.getAxisTicks();
         List<LatexText>  texts = axisTicks.getAxisTexts();
 
         if(this.isVertical==false){
@@ -193,6 +207,45 @@ public class GraphAxis {
                 g2d.drawLine(x,(int) tick,x+this.axisTicksLength,(int) tick);
                 texts.get(i).drawString(g2d, x-this.axisTextOffset, (int) tick, 2, 1);
             }
+        }
+
+    }
+
+    private void updateAxisDivisions(Graphics2D g2d){
+
+
+
+        List<Double>  ticks = this.axisRange.getDimensionTicks(numberOfMajorTicks);
+        axisTicks.init(ticks);
+
+        double heights    = 0.0;
+
+        if(this.isVertical==true){
+            heights = axisTicks.getTextsHeight(g2d);
+        } else {
+            heights = axisTicks.getTextsWidth(g2d);
+        }
+
+        double axisLength = axisDimension.getLength();
+        double fraction   = heights/axisLength;
+
+        if(fraction>0.6){
+
+            int nticks = numberOfMajorTicks;
+            while(fraction>0.6&&nticks>2){
+                //System.out.println("Oh yeah - " + nticks + "  fraction " + fraction );
+                nticks--;
+                ticks = this.axisRange.getDimensionTicks(nticks);
+                axisTicks.init(ticks);
+                //heights  = axisTicks.getTextsHeight(g2d);
+                if(this.isVertical==true){
+                    heights = axisTicks.getTextsHeight(g2d);
+                } else {
+                    heights = axisTicks.getTextsWidth(g2d);
+                }
+                fraction = heights/axisLength;
+            }
+            numberOfMajorTicks = nticks;
         }
 
     }
@@ -220,7 +273,7 @@ public class GraphAxis {
      * @param args
      */
     public static void main(String[] args){
-        GraphAxis  axis = new GraphAxis();
+        GraphicsAxis  axis = new GraphicsAxis();
         axis.setDimension(20, 100);
         axis.setRange(0.0, 120.0);
         //axis.setLog(true);
@@ -240,7 +293,6 @@ public class GraphAxis {
 
         }
 
-
         public List<Double>  getAxisTicks(){
             return this.axisTicks;
         }
@@ -254,6 +306,24 @@ public class GraphAxis {
             this.axisFontProperty.setFontSize(fp.getFontSize());
         }
 
+        public double  getTextsWidth(Graphics2D g2d){
+            double width = 0;
+            for(LatexText text : this.axisTexts){
+                Rectangle2D rect = text.getBoundsNumber(g2d);
+                width += rect.getWidth();
+            }
+            return width;
+        }
+
+        public double  getTextsHeight(Graphics2D g2d){
+            double width = 0;
+            for(LatexText text : this.axisTexts){
+                Rectangle2D rect = text.getBoundsNumber(g2d);
+                width += rect.getHeight();
+            }
+            return width;
+        }
+
         public void init(List<Double> ticks){
 
             axisTexts.clear();
@@ -264,7 +334,6 @@ public class GraphAxis {
             for(int i = 0; i < ticks.size(); i++){
                 axisTicks.add(ticks.get(i));
             }
-
 
             for(int i = 0; i < axisTicks.size(); i++){
 

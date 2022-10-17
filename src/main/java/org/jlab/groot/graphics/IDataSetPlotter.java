@@ -1,9 +1,10 @@
-package org.jlab.groot.ui;
+package org.jlab.groot.graphics;
 
 import java.awt.Graphics2D;
 import org.jlab.groot.data.IDataSet;
 import org.jlab.groot.math.Dimension2D;
 import org.jlab.groot.math.Dimension3D;
+import org.jlab.groot.ui.GraphicsAxisFrame;
 
 public interface IDataSetPlotter {
 
