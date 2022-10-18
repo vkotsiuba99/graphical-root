@@ -20,7 +20,7 @@ public class DatasetAttributes implements Cloneable {
     private int lineWidth = 1;
     private int lineStyle = 1;
     private int markerColor = 1;
-    private int markerWidth = 1;
+    private int markerSize = 1;
     private int markerStyle = 1;
     private int fillColor   = 0;
     private int fillStyle   = 1;
@@ -33,7 +33,7 @@ public class DatasetAttributes implements Cloneable {
     public void setLineWidth(int width){ this.lineWidth = width;}
     public void setLineStyle(int style){ this.lineStyle = style;}
     public void setMarkerColor(int color){ this.markerColor = color;}
-    public void setMarkerWidth(int width){ this.markerWidth = width;}
+    public void setMarkerSize(int size){ this.markerSize = size;}
     public void setMarkerStyle(int style){ this.markerStyle = style;}
     public void setFillColor(int color){ this.fillColor = color;}
     public void setFillStyle(int style){ this.fillStyle = style;}
@@ -43,7 +43,7 @@ public class DatasetAttributes implements Cloneable {
     public int  getLineWidth(){return this.lineWidth;}
     public int  getLineStyle(){return this.lineStyle;}
     public int  getMarkerColor(){return this.markerColor;}
-    public int  getMarkerWidth(){return this.markerWidth;}
+    public int  getMarkerSize(){return this.markerSize;}
     public int  getMarkerStyle(){return this.markerStyle;}
     public int  getFillColor() {return this.fillColor;}
     public int  getFillStyle(){return this.fillStyle;}
@@ -70,7 +70,7 @@ public class DatasetAttributes implements Cloneable {
         private JComboBox boxLineStyle = null;
 
         private JComboBox boxMarkerColor = null;
-        private JComboBox boxMarkerWidth = null;
+        private JComboBox boxMarkerSize = null;
         private JComboBox boxMarkerStyle = null;
 
         private JComboBox boxFillColor = null;
@@ -94,7 +94,7 @@ public class DatasetAttributes implements Cloneable {
             boxLineStyle = new JComboBox(colorChoices);
 
             boxMarkerColor = new JComboBox(colorChoices);
-            boxMarkerWidth = new JComboBox(colorChoices);
+            boxMarkerSize = new JComboBox(colorChoices);
             boxMarkerStyle = new JComboBox(colorChoices);
 
             this.add(labelLineColor);
@@ -111,7 +111,7 @@ public class DatasetAttributes implements Cloneable {
             this.add(boxMarkerColor,"wrap, growx");
 
             this.add(new JLabel("Maker Size:"));
-            this.add(boxMarkerWidth,"wrap, growx");
+            this.add(boxMarkerSize,"wrap, growx");
 
             this.add(new JLabel("Maker Style:"));
             this.add(boxMarkerStyle,"wrap, growx");
@@ -144,8 +144,8 @@ public class DatasetAttributes implements Cloneable {
                 attr.setLineStyle(Integer.parseInt(colorChoices[boxLineStyle.getSelectedIndex()]));
             }else if(e.getSource()==boxMarkerColor){
                 attr.setMarkerColor(Integer.parseInt(colorChoices[boxMarkerColor.getSelectedIndex()]));
-            }else if(e.getSource()==boxMarkerWidth){
-                attr.setMarkerWidth(Integer.parseInt(colorChoices[boxMarkerWidth.getSelectedIndex()]));
+            }else if(e.getSource()==boxMarkerSize){
+                attr.setMarkerSize(Integer.parseInt(colorChoices[boxMarkerWidth.getSelectedIndex()]));
             }else if(e.getSource()==boxMarkerStyle){
                 attr.setMarkerStyle(Integer.parseInt(colorChoices[boxMarkerStyle.getSelectedIndex()]));
             }else if(e.getSource()==boxFillColor){
