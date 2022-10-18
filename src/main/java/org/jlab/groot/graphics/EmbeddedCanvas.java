@@ -1,5 +1,6 @@
 package org.jlab.groot.graphics;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -41,6 +42,7 @@ import org.jlab.groot.data.H2F;
 import org.jlab.groot.data.IDataSet;
 import org.jlab.groot.group.DataGroup;
 import org.jlab.groot.math.FunctionFactory;
+import org.jlab.groot.ui.OptionsPanel;
 import org.jlab.groot.ui.TransferableImage;
 
 public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseListener, ActionListener {
@@ -315,17 +317,17 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseL
         //this.popup.add(new JSeparator());
         //this.popup.add(itemFitPanel);
         //this.popup.add(new JSeparator());
-        //this.popup.add(itemOptions);
+        this.popup.add(itemOptions);
         //this.popup.add(itemOpenWindow);
         addMouseListener(this);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("action performed " + e.getActionCommand());
-        /*
+
         if(e.getActionCommand().compareTo("Options")==0){
             this.openOptionsPanel(popupPad);
-        }
+        }/*
         if(e.getActionCommand().compareTo("Fit Panel")==0){
             this.openFitPanel(popupPad);
         }*/
@@ -373,6 +375,17 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseL
         }*/
 
     }
+    private void openOptionsPanel(int popupPad2) {
+        JFrame frame = new JFrame("Options Panel");
+        frame.setLayout(new BorderLayout());
+        OptionsPanel mainPanel = new OptionsPanel(this,popupPad2);
+        frame.add(mainPanel);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+
+    }
+
     private BufferedImage getScreenShot(){
         BufferedImage bi = new BufferedImage(
                 this.getWidth(), this.getHeight(), BufferedImage.TYPE_4BYTE_ABGR_PRE);
