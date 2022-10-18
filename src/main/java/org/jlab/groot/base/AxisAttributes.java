@@ -64,6 +64,7 @@ public class AxisAttributes {
 
         JComboBox  labelFontSize = null;
         JComboBox  titleFontSize = null;
+
         JTextField axisTitle     = null;
 
 
@@ -83,10 +84,14 @@ public class AxisAttributes {
             titleFontSize = new JComboBox(FontProperties.getFontSizeArray());
 
 
+            //Attributes.chooseByString(labelFont, "Avenir");
+            //Attributes.chooseByString(titleFont, "Helvetica");
+
             this.add(new JSeparator(),"skip, wrap, growx");
 
             this.add(new JLabel("Label Font:"));
             this.add(labelFont,"wrap, pushx, growx");
+            //this.add(labelFont,"wrap, pushx");
 
             this.add(new JLabel("Title Font:"));
             this.add(titleFont,"wrap, pushx, growx");
@@ -124,6 +129,10 @@ public class AxisAttributes {
             JButton buttonApply   = new JButton("Apply");
             this.add(buttonDefault,"skip, split2, pushy");
             this.add(buttonApply,"wrap, pushy");
+        }
+
+        public void updateAttr(AxisAttributes axisAttr){
+
         }
 
         @Override
