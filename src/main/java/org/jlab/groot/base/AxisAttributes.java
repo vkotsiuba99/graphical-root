@@ -26,7 +26,7 @@ import org.jlab.groot.ui.LatexText;
 
 import net.miginfocom.swing.MigLayout;
 
-public class AxisAttributes {
+public class AxisAttributes implements Cloneable {
 
     private String  labelFontName    = "Avenir";
     private int     labelFontSize    = 12;
@@ -184,6 +184,11 @@ public class AxisAttributes {
      */
     public int getTickSize() {
         return tickSize;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     public void setLabelFontName(String fn){this.labelFontName = fn;}
