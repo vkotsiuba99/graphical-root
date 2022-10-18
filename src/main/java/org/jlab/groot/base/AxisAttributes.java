@@ -39,6 +39,8 @@ public class AxisAttributes {
     private int      tickSize        = 5;
     private String   axisTitleString = "";
     private LatexText axisTitle      = new LatexText(axisTitleString);
+    private FontProperties labelFont = new FontProperties();
+    private FontProperties titleFont = new FontProperties();
 
     private EmbeddedCanvas can      = null;
 
@@ -349,6 +351,18 @@ public class AxisAttributes {
     public LatexText getTitle() {
         axisTitle.setText(axisTitleString);;
         return axisTitle;
+    }
+
+    public FontProperties getTitleFont() {
+        titleFont.setFontName(titleFontName);
+        titleFont.setFontSize(titleFontSize);
+        return titleFont;
+    }
+
+    public FontProperties getLabelFont() {
+        labelFont.setFontName(labelFontName);
+        labelFont.setFontSize(labelFontSize);
+        return labelFont;
     }
 
 }
