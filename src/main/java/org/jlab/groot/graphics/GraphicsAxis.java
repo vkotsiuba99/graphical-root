@@ -244,7 +244,8 @@ public class GraphicsAxis {
             }
             int  axisBounds = (int) texts.get(0).getBoundsNumber(g2d).getWidth();
             double midpoint = axisRange.getMin() + 0.5*this.axisRange.getLength();
-            System.out.println("x:"+x+" axisBounds: "+ axisBounds+" labelOffset:"+labelOffset+" titleOffset:"+titleOffset);
+            //System.out.println("x:"+x+" axisBounds: "+ axisBounds+" labelOffset:"+labelOffset+" titleOffset:"+titleOffset);
+
             attr.getTitle().drawString(g2d, x - axisBounds - labelOffset - titleOffset-35,
                     (int) getAxisPosition(midpoint),
                     LatexText.ALIGN_CENTER,LatexText.ALIGN_TOP, LatexText.ROTATE_LEFT);
