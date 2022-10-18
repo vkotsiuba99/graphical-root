@@ -27,7 +27,7 @@ public class OptionsPanel extends JPanel {
         tabbedPane = new JTabbedPane();
         this.setLayout(new BorderLayout());
         this.add(tabbedPane,BorderLayout.CENTER);
-        initMain();
+        //initMain();
         initAxes();
         initDatasets();
     }
@@ -40,8 +40,20 @@ public class OptionsPanel extends JPanel {
     }
 
     private void initAxes() {
-        AxisAttributesPane panex = new AxisAttributesPane(can.getPad(pad).getAxisFrame().getAxisX().attr);
-        AxisAttributesPane paney = new AxisAttributesPane(can.getPad(pad).getAxisFrame().getAxisY().attr);
+        AxisAttributesPane panex = new AxisAttributesPane(can.getPad(pad).getAxisFrame().getAxisX().getAttributes());
+        AxisAttributesPane paney = new AxisAttributesPane(can.getPad(pad).getAxisFrame().getAxisY().getAttributes());
+        panex.addAttributeListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                can.repaint();
+            }
+        });
+        paney.addAttributeListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                can.repaint();
+            }
+        });
         tabbedPane.add("X", panex);
         tabbedPane.add("Y", paney);
     }
