@@ -35,6 +35,9 @@ public class DatasetAttributes implements Cloneable {
     public void setMarkerColor(int color){ this.markerColor = color;}
     public void setMarkerWidth(int width){ this.markerWidth = width;}
     public void setMarkerStyle(int style){ this.markerStyle = style;}
+    public void setFillColor(int color){ this.fillColor = color;}
+    public void setFillStyle(int style){ this.fillStyle = style;}
+
 
     public int  getLineColor(){return this.lineColor;}
     public int  getLineWidth(){return this.lineWidth;}
@@ -43,6 +46,7 @@ public class DatasetAttributes implements Cloneable {
     public int  getMarkerWidth(){return this.markerWidth;}
     public int  getMarkerStyle(){return this.markerStyle;}
     public int  getFillColor() {return this.fillColor;}
+    public int  getFillStyle(){return this.fillStyle;}
 
 
     @Override
@@ -131,6 +135,21 @@ public class DatasetAttributes implements Cloneable {
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand().compareTo("Apply")==0){
 
+            }
+            if(e.getSource()==boxLineColor){
+                attr.setLineColor(Integer.parseInt(colorChoices[boxLineColor.getSelectedIndex()]));
+            }else if(e.getSource()==boxLineWidth){
+                attr.setLineWidth(Integer.parseInt(colorChoices[boxLineWidth.getSelectedIndex()]));
+            }else if(e.getSource()==boxLineStyle){
+                attr.setLineStyle(Integer.parseInt(colorChoices[boxLineStyle.getSelectedIndex()]));
+            }else if(e.getSource()==boxMarkerColor){
+                attr.setMarkerColor(Integer.parseInt(colorChoices[boxMarkerColor.getSelectedIndex()]));
+            }else if(e.getSource()==boxMarkerWidth){
+                attr.setMarkerWidth(Integer.parseInt(colorChoices[boxMarkerWidth.getSelectedIndex()]));
+            }else if(e.getSource()==boxMarkerStyle){
+                attr.setMarkerStyle(Integer.parseInt(colorChoices[boxMarkerStyle.getSelectedIndex()]));
+            }else if(e.getSource()==boxFillColor){
+                attr.setFillColor(Integer.parseInt(colorChoices[boxFillColor.getSelectedIndex()]));
             }
         }
     }
