@@ -2,6 +2,7 @@ package org.jlab.groot.math;
 
 import org.jlab.groot.base.AttributeType;
 import org.jlab.groot.base.Attributes;
+import org.jlab.groot.base.DatasetAttributes;
 import org.jlab.groot.data.IDataSet;
 import org.jlab.groot.ui.PaveText;
 
@@ -11,7 +12,7 @@ public class Func1D implements IDataSet {
     String          funcName = "f1d";
     private int   defaultDrawingPoints = 250;
     private Dimension1D  functionRange = new Dimension1D();
-    private Attributes   funcAttr      = new Attributes();
+    private DatasetAttributes   funcAttr      = new DatasetAttributes();
     private double      funcChi2       = 0.0;
     private int         funcNDF        = 0;
 
@@ -29,9 +30,10 @@ public class Func1D implements IDataSet {
     }
 
     private void initAttributes(){
-        funcAttr.add(AttributeType.LINE_COLOR, 2);
+        /*funcAttr.add(AttributeType.LINE_COLOR, 2);
         funcAttr.add(AttributeType.LINE_WIDTH, 2);
         funcAttr.add(AttributeType.LINE_STYLE, 1);
+                */
     }
 
     public final void setRange(double min, double max){
@@ -116,7 +118,7 @@ public class Func1D implements IDataSet {
     }
 
     @Override
-    public Attributes getAttributes() {
+    public DatasetAttributes getAttributes() {
         return this.funcAttr;
     }
 
@@ -158,25 +160,25 @@ public class Func1D implements IDataSet {
     }
 
     public int getLineColor(){
-        return this.funcAttr.get(AttributeType.LINE_COLOR);
+        return funcAttr.getLineColor();
     }
 
     public int getLineWidth(){
-        return this.funcAttr.get(AttributeType.LINE_WIDTH);
+        return this.funcAttr.getLineWidth();
     }
 
     public int getLineStyle(){
-        return this.funcAttr.get(AttributeType.LINE_STYLE);
+        return this.funcAttr.getLineStyle();
     }
 
     public void setLineColor(int color){
-        this.funcAttr.add(AttributeType.LINE_COLOR, color);
+        this.funcAttr.setLineColor(color);
     }
     public void setLineWidth(int width){
-        this.funcAttr.add(AttributeType.LINE_WIDTH, width);
+        this.funcAttr.setLineWidth(width);
     }
     public void setLineStyle(int style){
-        this.funcAttr.add(AttributeType.LINE_STYLE, style);
+        this.funcAttr.setLineStyle(style);
     }
 
     public double getChiSquare(){
