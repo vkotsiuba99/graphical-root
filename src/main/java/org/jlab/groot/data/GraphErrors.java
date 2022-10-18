@@ -40,6 +40,7 @@ public class GraphErrors implements IDataSet {
         graphAttr.setMarkerColor(1);
         graphAttr.setMarkerSize(6);
         graphAttr.setMarkerStyle(1);
+        graphAttr.setDatasetType(DatasetAttributes.GRAPHERRORS);
 
     }
 
