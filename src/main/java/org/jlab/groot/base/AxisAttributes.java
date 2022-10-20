@@ -221,6 +221,7 @@ public class AxisAttributes implements Cloneable{
         DoubleSpinner   axisMaximum = null;
         JCheckBox  axisAutoScale = null;
         JCheckBox  axisGrid      = null;
+        JCheckBox  axisLog       = null;
         JComboBox  labelFont     = null;
         JComboBox  titleFont     = null;
 
@@ -293,17 +294,20 @@ public class AxisAttributes implements Cloneable{
             axisMaximum   = new DoubleSpinner();
             axisAutoScale = new JCheckBox();
             axisGrid      = new JCheckBox();
+            axisLog = new JCheckBox();
+
 
             axisMinimum.setValue(attr.getAxisMinimum());
             axisMaximum.setValue(attr.getAxisMaximum());
             axisAutoScale.setSelected(attr.isAxisAutoScale());
             axisGrid.setSelected(attr.isAxisGrid());
+            axisLog.setSelected(attr.isLog());
 
             axisMinimum.addChangeListener(this);
             axisMaximum.addChangeListener(this);
             axisAutoScale.addChangeListener(this);
             axisGrid.addChangeListener(this);
-
+            axisLog.addChangeListener(this);
 
             this.add(new JLabel("Axis Min:"));
             this.add(axisMinimum,"wrap, pushx, growx");
@@ -314,6 +318,9 @@ public class AxisAttributes implements Cloneable{
 
             this.add(new JLabel("Grid:"),"pushx");
             this.add(axisGrid,"wrap, pushx, growx");
+
+            //this.add(new JLabel("Log:"),"skip, split4");
+            //this.add(axisLog);
 
             //this.add(new JSeparator(),"skip, wrap, growx");
             JButton buttonDefault = new JButton("Default");
@@ -364,6 +371,8 @@ public class AxisAttributes implements Cloneable{
                 attr.setAxisMaximum((double) axisMaximum.getDouble());
             }else if(e.getSource()==axisGrid){
                 attr.setAxisGrid(axisGrid.isSelected());
+            }else if(e.getSource()==axisLog){
+                attr.setLog(axisLog.isSelected());
             }
             updateCanvas();
         }
