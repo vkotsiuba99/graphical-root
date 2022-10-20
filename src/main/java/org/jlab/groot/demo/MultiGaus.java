@@ -7,13 +7,12 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import org.jlab.groot.data.H1F;
-import org.jlab.groot.data.H2F;
 import org.jlab.groot.fitter.DataFitter;
 import org.jlab.groot.graphics.EmbeddedCanvas;
 import org.jlab.groot.math.F1D;
 import org.jlab.groot.math.RandomFunc;
 
-public class multiGaus {
+public class MultiGaus {
 
     public static void main(String[] args) {
         Dimension screensize  = Toolkit.getDefaultToolkit().getScreenSize();
