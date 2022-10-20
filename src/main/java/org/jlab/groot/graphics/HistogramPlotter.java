@@ -75,7 +75,6 @@ public class HistogramPlotter implements IDataSetPlotter  {
         path.moveTo((int) xps, (int) yp);
 
         for(int p = 0; p < npoints; p++){
-
             dataX  = dataset.getDataX(p);
             dataY  = dataset.getDataY(p);
             errorX = dataset.getDataEX(p);
