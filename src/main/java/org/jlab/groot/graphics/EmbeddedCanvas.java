@@ -45,6 +45,7 @@ import org.jlab.groot.data.H2F;
 import org.jlab.groot.data.IDataSet;
 import org.jlab.groot.group.DataGroup;
 import org.jlab.groot.math.FunctionFactory;
+import org.jlab.groot.ui.FitPanel;
 import org.jlab.groot.ui.OptionsPanel;
 import org.jlab.groot.ui.TransferableImage;
 
@@ -59,6 +60,14 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseL
     private JPopupMenu popup = null;
     private int popupPad = 0;
     private List<EmbeddedPad>    canvasPads  = new ArrayList<EmbeddedPad>();
+
+    public List<EmbeddedPad> getCanvasPads() {
+        return canvasPads;
+    }
+
+    public void setCanvasPads(List<EmbeddedPad> canvasPads) {
+        this.canvasPads = canvasPads;
+    }
     private int                  ec_COLUMNS  = 1;
     private int                  ec_ROWS     = 1;
     // private PadMargins           canvasPadding = new PadMargins();
@@ -396,7 +405,8 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseL
         this.popup.add(itemSave);
         this.popup.add(itemSaveAs);
         //this.popup.add(new JSeparator());
-        //this.popup.add(itemFitPanel);
+        this.popup.add(itemFitPanel);
+
         //this.popup.add(new JSeparator());
         this.popup.add(itemOptions);
         //this.popup.add(itemOpenWindow);
@@ -408,10 +418,10 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseL
 
         if(e.getActionCommand().compareTo("Options")==0){
             this.openOptionsPanel(popupPad);
-        }/*
+        }
         if(e.getActionCommand().compareTo("Fit Panel")==0){
             this.openFitPanel(popupPad);
-        }*/
+        }
         if(e.getActionCommand().compareTo("Copy Canvas")==0){
             this.copyToClipboard();
         }
@@ -456,6 +466,16 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseL
         }*/
 
     }
+    private void openFitPanel(int popupPad2) {
+        JFrame frame = new JFrame("Fit Panel");
+        frame.setLayout(new BorderLayout());
+        FitPanel mainPanel = new FitPanel(this,popupPad2);
+        frame.add(mainPanel);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+    }
+
     private void paste(int popupPad2) {
         DataFlavor dmselFlavor = new DataFlavor(EmbeddedPad.class, "EmbeddedPad");
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
