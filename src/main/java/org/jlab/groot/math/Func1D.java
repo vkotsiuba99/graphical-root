@@ -201,6 +201,7 @@ public class Func1D implements IDataSet {
     @Override
     public PaveText getStatBox() {
         PaveText  stat = new PaveText(2);
+        stat.addText("Name:",this.getName());
         for(UserParameter par : userPars.getParameters()){
             stat.addText(par.name(),String.format("%.3f", par.value()));
         }
