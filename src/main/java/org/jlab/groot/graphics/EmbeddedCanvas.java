@@ -13,6 +13,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -34,7 +35,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -61,6 +62,7 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseL
     private PadMargins           canvasPadding = new PadMargins();
     private int                  activePad     = 0;
     private boolean isChild = false;
+    private boolean benchmark = false;
 
     public EmbeddedCanvas(){
         super();
@@ -175,7 +177,18 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseL
             }
 
             Long et = System.currentTimeMillis();
-            paintingTime += (et-st);
+            Long paintingTime = (et-st);
+            if(benchmark){
+                g2d.setColor(Color.WHITE);
+                g2d.fillRect(0, 0, 50, 16);
+                g2d.setColor(Color.BLACK);
+                g2d.drawRect(0, 0, 50, 16);
+                g2d.setColor(Color.BLUE);
+                g2d.drawString(String.format("%d FPS",(int)(1.0/(((double)paintingTime)/1000.0))), 5, 14);
+
+                //System.out.println("Painting time: "+paintingTime+"ms");
+            }
+            paintingTime += paintingTime;
             numberOfPaints++;
         } catch(Exception e){
             System.out.println("[EmbeddedCanvas] ---> ooops");
@@ -207,6 +220,9 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseL
         for(EmbeddedPad pad : canvasPads){
             pad.setAxisFontSize(size);
         }
+    }
+    public void showFPS(boolean benchmark){
+        this.benchmark = benchmark;
     }
 
     public void  initTimer(int interval){
@@ -287,34 +303,37 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener,MouseL
             dialogWin.setVisible(true);
         }
         if(e.getClickCount()==1&&e.getButton()==1){
-            System.out.println("Left click!");
+            //System.out.println("Left click!");
             if(selectedDataset!=null){
                 selectedDataset.getAttributes().setFillColor(fillcolortemp);
                 this.repaint();
             }
             selectedDataset = null;
             for(EmbeddedPad pad : this.canvasPads){
-                if(pad.getDatasetPlotters().size()>0){
-                    for(IDataSetPlotter plotter : pad.getDatasetPlotters())
-                        if(plotter instanceof HistogramPlotter){
-                            HistogramPlotter temp = (HistogramPlotter) plotter;
-                            if(temp.path.contains(e.getX(), e.getY())){
-                                System.out.println("You clicked on:"+temp.getName());
-                                if(selectedDataset != temp ){
-                                    if(selectedDataset!=null){
-                                        selectedDataset.getAttributes().setFillColor(fillcolortemp);
+                if(pad.getAxisFrame().getFrameDimensions().contains(e.getX(),e.getY())){
+                    //System.out.println("This pad contains the click");
+                    if(pad.getDatasetPlotters().size()>0){
+                        for(IDataSetPlotter plotter : pad.getDatasetPlotters())
+                            if(plotter instanceof HistogramPlotter){
+                                HistogramPlotter temp = (HistogramPlotter) plotter;
+                                if(temp.path.contains(e.getX(), e.getY())){
+                                    System.out.println("You clicked on:"+temp.getName());
+                                    if(selectedDataset != temp ){
+                                        if(selectedDataset!=null){
+                                            selectedDataset.getAttributes().setFillColor(fillcolortemp);
+                                        }
+                                        fillcolortemp = temp.getDataSet().getAttributes().getFillColor();
+                                        selectedDataset = temp.getDataSet();
+                                        if(fillcolortemp<10){
+                                            temp.getDataSet().getAttributes().setFillColor(fillcolortemp+10);
+                                        }else{
+                                            temp.getDataSet().getAttributes().setFillColor(fillcolortemp-10);
+                                        }
+                                        this.repaint();
                                     }
-                                    fillcolortemp = temp.getDataSet().getAttributes().getFillColor();
-                                    selectedDataset = temp.getDataSet();
-                                    if(fillcolortemp<10){
-                                        temp.getDataSet().getAttributes().setFillColor(fillcolortemp+10);
-                                    }else{
-                                        temp.getDataSet().getAttributes().setFillColor(fillcolortemp-10);
-                                    }
-                                    this.repaint();
                                 }
                             }
-                        }
+                    }
                 }
             }
         }
