@@ -141,7 +141,12 @@ public class EmbeddedPad {
                 axisFrame.getAxisX().getAttributes().setAxisAutoScale(true);
             }
 
-            if(this.getAxisY().isAutoScale()==false){
+            double sum = 0.0;
+            for(int i=0; i<datasetPlotters.get(0).getDataSet().getDataSize(1); i++){
+                sum += datasetPlotters.get(0).getDataSet().getDataY(i);
+            }
+
+            if(this.getAxisY().isAutoScale()==false|| sum==0.0){
                 axis.getDimension(1).copy(this.getAxisY().getRange());
             }else{
                 axisFrame.getAxisY().setRange(
@@ -312,6 +317,10 @@ public class EmbeddedPad {
             if(plotter instanceof Histogram2DPlotter){
                 pad.addPlotter(new Histogram2DPlotter(plotter.getDataSet()));
             }
+            if(plotter instanceof GraphErrorsPlotter){
+                pad.addPlotter(new GraphErrorsPlotter(plotter.getDataSet()));
+                //System.out.println("Graph errors");
+            }
         }
         try {
             pad.getAxisX().setAttributes((AxisAttributes) this.getAxisX().getAttributes().clone());
@@ -345,6 +354,11 @@ public class EmbeddedPad {
             //embeddedPad.getAxisFrame().getAxisX()
         }
 
+    }
+
+
+    public GraphicsAxis getAxisZ() {
+        return this.axisFrame.getAxisZ();
     }
 
 }
