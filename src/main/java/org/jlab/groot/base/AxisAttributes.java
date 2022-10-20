@@ -430,4 +430,12 @@ public class AxisAttributes implements Cloneable{
         return range;
     }
 
+    public boolean getGrid() {
+        return axisGrid;
+    }
+
+    public void setGrid(boolean axisGrid) {
+        this.axisGrid = axisGrid;
+    }
+
 }
