@@ -119,16 +119,6 @@ public class GraphErrors implements IDataSet {
         return this.dataY;
     }
 
-
-
-    public  void setFillColor(int color){
-        this.graphAttr.setFillColor(color);
-    }
-
-    public int getFillColor(){
-        return this.graphAttr.getFillColor();
-    }
-
     public void setMarkerSize(int size){
         this.graphAttr.setMarkerSize(size);
     }
@@ -136,7 +126,6 @@ public class GraphErrors implements IDataSet {
     public int getMarkerSize(){
         return this.graphAttr.getMarkerSize();
     }
-
 
     public void setMarkerStyle(int style){
         this.graphAttr.setMarkerStyle(style);
@@ -152,6 +141,22 @@ public class GraphErrors implements IDataSet {
 
     public void setMarkerColor(int color){
         this.graphAttr.setMarkerColor(color);
+    }
+
+    public void setLineColor(int color) {
+        this.graphAttr.setLineColor(color);
+    }
+
+    public int getLineColor() {
+        return this.graphAttr.getLineColor();
+    }
+
+    public void setLineThickness(int thickness){
+        this.graphAttr.setLineWidth(thickness);
+    }
+
+    public int getLineThickness(){
+        return this.graphAttr.getLineWidth();
     }
 
     public String getTitle(){
