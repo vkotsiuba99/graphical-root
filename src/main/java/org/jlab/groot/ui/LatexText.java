@@ -9,6 +9,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
+import org.jlab.groot.base.TStyle;
+
 public class LatexText {
 
     public  static int  ALIGN_LEFT    = 0;
@@ -83,6 +85,7 @@ public class LatexText {
             latexString.addAttribute(TextAttribute.SIZE, (float) size);
         }
     }
+
 
     public void drawString(Graphics2D  g2d, int x, int y, int alignX, int alignY, int rotate){
 
