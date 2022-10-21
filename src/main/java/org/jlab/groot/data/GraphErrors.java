@@ -5,6 +5,7 @@ import org.jlab.groot.ui.PaveText;
 
 public class GraphErrors implements IDataSet {
 
+    public static final String[] MARKERNAME = {"Circle","Square","Triangle","Inverted Triangle"};
     private final DataVector dataX = new DataVector();
     private final DataVector dataY = new DataVector();
     private final DataVector dataEX = new DataVector();
@@ -34,11 +35,11 @@ public class GraphErrors implements IDataSet {
 
     private void initAttributes(){
         graphAttr.setLineColor(1);
-        graphAttr.setLineWidth(1);
+        graphAttr.setLineWidth(2);
         graphAttr.setLineStyle(1);
         graphAttr.setMarkerColor(1);
         graphAttr.setMarkerSize(6);
-        graphAttr.setMarkerStyle(1);
+        graphAttr.setMarkerStyle(0);
         graphAttr.setDatasetType(DatasetAttributes.GRAPHERRORS);
 
     }

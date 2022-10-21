@@ -13,15 +13,18 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import org.jlab.groot.data.GraphErrors;
+
 import net.miginfocom.swing.MigLayout;
 
 public class DatasetAttributes implements Cloneable {
     private int lineColor = 1;
-    private int lineWidth = 1;
+    private int lineWidth = 3;
     private int lineStyle = 1;
     private int markerColor = 1;
     private int markerSize = 1;
-    private int markerStyle = 1;
+    private int markerStyle = 0;
     private int fillColor   = 0;
     private int fillStyle   = 1;
     private int datasetType  = 0;
@@ -100,8 +103,8 @@ public class DatasetAttributes implements Cloneable {
         private  int[] colorChoicesInts   = new int[50];
         private  String[] sizeChoices     = new String[10];
         private  int[] sizeChoicesInts    = new int[10];
-        private  String[] markerChoices   = new String[5];
-        private  int[] markerChoicesInts  = new int[5];
+        private  String[] markerChoices   = new String[4];
+        private  int[] markerChoicesInts  = new int[4];
 
 
         private JComboBox boxLineColor = null;
@@ -135,7 +138,11 @@ public class DatasetAttributes implements Cloneable {
                     sizeChoicesInts[i] = i;
                 }
                 if(i<markerChoices.length){
-                    markerChoices[i] = ""+i;
+                    if(attr.getDatasetType() == DatasetAttributes.GRAPHERRORS){
+                        markerChoices[i] = GraphErrors.MARKERNAME[i];
+                    }else{
+                        markerChoices[i] = ""+i;
+                    }
                     markerChoicesInts[i] = i;
                 }
             }
@@ -191,6 +198,10 @@ public class DatasetAttributes implements Cloneable {
                 this.add(boxMarkerSize,"wrap, growx");
                 this.add(new JLabel("Marker Style:"));
                 this.add(boxMarkerStyle,"wrap, growx");
+                this.add(labelLineColor);
+                this.add(boxLineColor,"wrap, pushx, growx");
+                this.add(labelLineWidth);
+                this.add(boxLineWidth,"wrap, growx");
             }
 
             if(attr.getDatasetType()==DatasetAttributes.HISTOGRAM){
@@ -235,7 +246,7 @@ public class DatasetAttributes implements Cloneable {
             }else if(e.getSource()==boxMarkerSize){
                 attr.setMarkerSize(Integer.parseInt(sizeChoices[boxMarkerSize.getSelectedIndex()]));
             }else if(e.getSource()==boxMarkerStyle){
-                attr.setMarkerStyle(Integer.parseInt(markerChoices[boxMarkerStyle.getSelectedIndex()]));
+                attr.setMarkerStyle(boxMarkerStyle.getSelectedIndex());
             }else if(e.getSource()==boxFillColor){
                 attr.setFillColor(Integer.parseInt(colorChoices[boxFillColor.getSelectedIndex()]));
             }else if(e.getSource()==optStatTextField){
