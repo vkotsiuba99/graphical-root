@@ -224,6 +224,7 @@ public class AxisAttributes implements Cloneable{
         JCheckBox  axisAutoScale = null;
         JCheckBox  axisGrid      = null;
         JCheckBox  axisLog       = null;
+        JCheckBox  axisShow       = null;
         JComboBox  labelFont     = null;
         JComboBox  titleFont     = null;
 
@@ -296,6 +297,7 @@ public class AxisAttributes implements Cloneable{
             axisMaximum   = new DoubleSpinner();
             axisAutoScale = new JCheckBox();
             axisGrid      = new JCheckBox();
+            axisShow      = new JCheckBox();
             axisLog = new JCheckBox();
 
 
@@ -304,12 +306,14 @@ public class AxisAttributes implements Cloneable{
             axisAutoScale.setSelected(attr.isAxisAutoScale());
             axisGrid.setSelected(attr.isAxisGrid());
             axisLog.setSelected(attr.isLog());
+            axisShow.setSelected(attr.showAxis());
 
             axisMinimum.addChangeListener(this);
             axisMaximum.addChangeListener(this);
             axisAutoScale.addChangeListener(this);
             axisGrid.addChangeListener(this);
             axisLog.addChangeListener(this);
+            axisShow.addChangeListener(this);
 
             this.add(new JLabel("Axis Min:"));
             this.add(axisMinimum,"wrap, pushx, growx");
@@ -320,6 +324,8 @@ public class AxisAttributes implements Cloneable{
 
             this.add(new JLabel("Grid:"),"pushx");
             this.add(axisGrid,"wrap, pushx, growx");
+            this.add(new JLabel("Show Axis:"),"skip,split4");
+            this.add(axisShow);
 
             //this.add(new JLabel("Log:"),"skip, split4");
             //this.add(axisLog);
@@ -375,6 +381,8 @@ public class AxisAttributes implements Cloneable{
                 attr.setAxisGrid(axisGrid.isSelected());
             }else if(e.getSource()==axisLog){
                 attr.setLog(axisLog.isSelected());
+            }else if(e.getSource()==axisShow){
+                attr.setShowAxis(axisShow.isSelected());
             }
             updateCanvas();
         }
