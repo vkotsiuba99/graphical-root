@@ -23,7 +23,6 @@ public class GraphicsAxis {
 
 
     // private final  Dimension1D                  axisRange   = new Dimension1D();
-    private final  Dimension1D              axisDimension   = new Dimension1D();
 
     private        int                 numberOfMajorTicks   = 10;
     private        Boolean                  isLogarithmic   = false;
@@ -83,7 +82,7 @@ public class GraphicsAxis {
      * @return
      */
     public final GraphicsAxis setDimension(int xmin, int xmax){
-        this.axisDimension.setMinMax(xmin, xmax);
+        this.attr.getAxisDimension().setMinMax(xmin, xmax);
         return this;
     }
 
@@ -95,7 +94,7 @@ public class GraphicsAxis {
     }
 
     public Dimension1D getDimension(){
-        return this.axisDimension;
+        return  this.attr.getAxisDimension();
     }
 
     /**
@@ -147,11 +146,28 @@ public class GraphicsAxis {
      */
     public double getAxisPosition(double value){
         double fraction = this.attr.getRange().getFraction(value);
-        if(axisDimension.getMin()<axisDimension.getMax()){
-            return this.axisDimension.getPoint(fraction);
+        if( this.attr.getAxisDimension().getMin()< this.attr.getAxisDimension().getMax()){
+            //System.out.println("Getting axis position(fraction):"+this.axisType+" "+value+" "+this.attr.getAxisDimension().getPoint(fraction)+" "+fraction);
+            return this.attr.getAxisDimension().getPoint(fraction);
         } else {
-            return axisDimension.getMin() -
-                    fraction*Math.abs(axisDimension.getMax()-axisDimension.getMin());
+            //System.out.println("Getting axis position(fraction):"+this.axisType+" "+value+" "+this.attr.getAxisDimension().getPoint(fraction)+" "+fraction+" "+Math.log10(fraction));
+
+            if(this.getLog()){
+                double axisMinimum = this.getDimension().getMin();
+
+                if(axisMinimum<1E-20){
+                    axisMinimum = 1E-20;
+                }
+                if(fraction>1E-20){
+                    return  this.attr.getAxisDimension().getMin() -
+                            fraction*Math.abs(this.attr.getAxisDimension().getMax()- this.attr.getAxisDimension().getMin());
+                }else{
+                    return axisMinimum;
+                }
+            }else{
+                return  this.attr.getAxisDimension().getMin() -
+                        fraction*Math.abs(this.attr.getAxisDimension().getMax()- this.attr.getAxisDimension().getMin());
+            }
         }
     }
     /**
@@ -257,25 +273,23 @@ public class GraphicsAxis {
         int labelOffset = attr.getLabelOffset();
         int titleOffset = attr.getTitleOffset();
         int tickLength = attr.getTickSize();
+        double midpoint = getAxisPosition(this.attr.getRange().getMin())*0.5 + 0.5*getAxisPosition(this.attr.getRange().getMax());
 
 
         if(this.isVertical==false){
-            g2d.drawLine((int)axisDimension.getMin(),y,(int)axisDimension.getMax(),y);
+            g2d.drawLine((int) this.attr.getAxisDimension().getMin(),y,(int) this.attr.getAxisDimension().getMax(),y);
             for(int i = 0; i < ticks.size(); i++){
                 double tick = this.getAxisPosition(ticks.get(i));
                 g2d.drawLine((int) tick,y,(int) tick,y-tickLength);
                 texts.get(i).drawString(g2d, (int) tick, y + labelOffset, 1, 0);
             }
-            double midpoint = this.attr.getRange().getMin() + 0.5*this.attr.getRange().getLength();
-            //System.out.println(" Axis midpoint = " + (int) getAxisPosition(midpoint)
-            //+ " " + y);
+
             int  axisBounds = (int) texts.get(0).getBoundsNumber(g2d).getHeight();
-            //System.out.println(" Y = " + y + " " + axisBounds + "  "+ (axisBounds + this.axisTextOffset + this.axisTitleOffset));
             attr.getTitle().drawString(g2d,
                     (int) getAxisPosition(midpoint),
                     y + axisBounds + labelOffset + titleOffset ,1,0);
         } else {
-            g2d.drawLine(x,(int)axisDimension.getMin(),x,(int)axisDimension.getMax());
+            g2d.drawLine(x,(int) this.attr.getAxisDimension().getMin(),x,(int) this.attr.getAxisDimension().getMax());
             for(int i = 0; i < ticks.size(); i++){
                 double tick = this.getAxisPosition(ticks.get(i));
                 g2d.drawLine(x,(int) tick,x+tickLength,(int) tick);
@@ -287,14 +301,11 @@ public class GraphicsAxis {
                     axisBounds = (int)texts.get(i).getBoundsNumber(g2d).getWidth();
                 }
             }
-            double midpoint = this.attr.getRange().getMin() + 0.5*this.attr.getRange().getLength();
-            //System.out.println("x:"+x+" axisBounds: "+ axisBounds+" labelOffset:"+labelOffset+" titleOffset:"+titleOffset);
-
-            //Gagik, here's the offset issue. I threw a -35 in there and it fixes the offset, kinda
 
             attr.getTitle().drawString(g2d, x - axisBounds - labelOffset - titleOffset - 8 - attr.getTitleFontSize(),
-                    (int) getAxisPosition(midpoint),
+                    (int) midpoint,
                     LatexText.ALIGN_CENTER,LatexText.ALIGN_TOP, LatexText.ROTATE_LEFT);
+
         }
 
     }
@@ -310,11 +321,11 @@ public class GraphicsAxis {
         List<LatexText>  texts = axisTicks.getAxisTexts();
         g2d.setColor(Color.BLACK);
 
-        g2d.drawLine(x,(int)axisDimension.getMin(),x,(int)axisDimension.getMax());
+        g2d.drawLine(x,(int) this.attr.getAxisDimension().getMin(),x,(int) this.attr.getAxisDimension().getMax());
 
         int xstart = x + 4 + 8;
         int ncolors = ColorPalette.getColorPallete3DSize();
-        double height = Math.abs(axisDimension.getLength());
+        double height = Math.abs( this.attr.getAxisDimension().getLength());
         int    tickSize = this.attr.getTickSize()/2;
         //System.out.println(" Draw Z axis X = " + x + " Y = " + y);
 
@@ -330,8 +341,8 @@ public class GraphicsAxis {
         }
 
         g2d.setColor(Color.BLACK);
-        g2d.drawRect(x + 4, (int) this.axisDimension.getMax(),
-                8,(int) Math.abs(this.axisDimension.getLength()));
+        g2d.drawRect(x + 4, (int) this.attr.getAxisDimension().getMax(),
+                8,(int) Math.abs( this.attr.getAxisDimension().getLength()));
         for(int i = 0; i < ticks.size(); i++){
             double tick = this.getAxisPosition(ticks.get(i));
             g2d.drawLine(xstart,(int) tick,xstart+tickSize,(int) tick);
@@ -358,7 +369,7 @@ public class GraphicsAxis {
             heights = axisTicks.getTextsWidth(g2d);
         }
 
-        double axisLength = axisDimension.getLength();
+        double axisLength =  this.attr.getAxisDimension().getLength();
         double fraction   = heights/axisLength;
 
         if(fraction>0.6){
@@ -401,8 +412,8 @@ public class GraphicsAxis {
         str.append("Axis : ");
         str.append(" LOG = ");
         str.append(this.isLogarithmic);
-        str.append(String.format("  (%4d x %4d ) : ->  ", (int) axisDimension.getMin(),
-                (int) axisDimension.getMax()));
+        str.append(String.format("  (%4d x %4d ) : ->  ", (int)  this.attr.getAxisDimension().getMin(),
+                (int)  this.attr.getAxisDimension().getMax()));
         //str.append(axisLabels.toString());
         return str.toString();
     }
