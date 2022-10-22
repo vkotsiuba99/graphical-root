@@ -20,11 +20,13 @@ public class GraphErrors implements IDataSet {
     }
 
 
+
     public GraphErrors(String name, double[] x, double y[], double[] ex, double[] ey){
         setName(name);
         for(int i = 0; i < x.length; i++){
             this.addPoint(x[i], y[i], ex[i], ey[i]);
         }
+        initAttributes();
     }
 
     public GraphErrors(String name, double[] x, double y[]){
@@ -32,7 +34,14 @@ public class GraphErrors implements IDataSet {
         for(int i = 0; i < x.length; i++){
             this.addPoint(x[i], y[i], 0.0,0.0);
         }
+        initAttributes();
     }
+
+    public GraphErrors(String name) {
+        setName(name);
+        initAttributes();
+    }
+
 
     private void initAttributes(){
         try {
