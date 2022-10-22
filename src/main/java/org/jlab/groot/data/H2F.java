@@ -3,6 +3,7 @@ package org.jlab.groot.data;
 import java.util.ArrayList;
 
 import org.jlab.groot.base.DatasetAttributes;
+import org.jlab.groot.base.GStyle;
 import org.jlab.groot.math.Axis;
 import org.jlab.groot.math.MultiIndex;
 import org.jlab.groot.ui.PaveText;
@@ -20,7 +21,7 @@ public class H2F implements IDataSet {
     public H2F() {
         offset = new MultiIndex(xAxis.getNBins(), yAxis.getNBins());
         hBuffer = new float[offset.getArraySize()];
-
+        initAttributes();
     }
 
     @Override
@@ -35,6 +36,7 @@ public class H2F implements IDataSet {
         hName = name;
         offset = new MultiIndex(xAxis.getNBins(), yAxis.getNBins());
         hBuffer = new float[offset.getArraySize()];
+        initAttributes();
 
     }
 
@@ -62,6 +64,7 @@ public class H2F implements IDataSet {
         this.set(bx, xmin, xmax, by, ymin, ymax);
         offset = new MultiIndex(bx, by);
         hBuffer = new float[offset.getArraySize()];
+        initAttributes();
     }
 
     public H2F(String name, String title, int bx, double xmin, double xmax, int by,
@@ -72,7 +75,18 @@ public class H2F implements IDataSet {
         this.set(bx, xmin, xmax, by, ymin, ymax);
         offset = new MultiIndex(bx, by);
         hBuffer = new float[offset.getArraySize()];
+        initAttributes();
     }
+
+    private void initAttributes() {
+        try {
+            this.attr = GStyle.getH2FAttributes().clone();
+        } catch (CloneNotSupportedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Sets the bins to the x and y axes and creates the buffer of the histogram
      *
