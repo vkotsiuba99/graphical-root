@@ -13,7 +13,7 @@ Try out the [demo jar](https://github.com/vkotsiuba99/graphical-root/tree/master
 To run the example: Simply double click on the jar if you're a mac user, or if you're a linux user run ```java -jar GrootDemo.jar```
 
 <img src="https://github.com/vkotsiuba99/graphical-root/blob/master/images/multipad.png" width="800">
-<img src="https://github.com/vkotsiuba99/graphical-root/blob/master/images/Histogram2D.png" width="400">
+<img src="https://github.com/vkotsiuba99/graphical-root/blob/master/images/histogram2d_demo.png" width="400">
 <img src="https://github.com/vkotsiuba99/graphical-root/blob/master/images/copyPaste.png" width="400">
 <img src="https://github.com/vkotsiuba99/graphical-root/blob/master/images/totalcs_ppbar.png" width="800">
 
