@@ -209,6 +209,7 @@ public class Directory<T> {
     }
 
 
+
     /**
      * Returns pointer to parent directory. For root directory it's NULL
      * @return pointer to parent.

@@ -1,7 +1,12 @@
 package org.jlab.groot.data;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.jlab.groot.fitter.DataFitter;
+import org.jlab.groot.group.DataGroup;
+import org.jlab.groot.group.DataGroupDescriptor;
 import org.jlab.groot.math.F1D;
 import org.jlab.groot.ui.TCanvas;
 import org.jlab.hipo.data.HipoEvent;
@@ -11,13 +16,50 @@ import org.jlab.hipo.io.HipoWriter;
 
 public class TDirectory extends Directory<IDataSet> {
 
+    Map<String,DataGroupDescriptor>  groupDescriptors = new LinkedHashMap<>();
 
     public TDirectory(){
 
     }
 
-    public void addDataSet(IDataSet ds){
-        add(ds.getName(),ds);
+    public void addGroupDescriptor(String name, int cols, int rows){
+        groupDescriptors.put(name, new DataGroupDescriptor(name,cols,rows));
+    }
+
+    public void addGroup(String name, int order, String dataset){
+        if(groupDescriptors.containsKey(name)==true){
+            groupDescriptors.get(name).add(order, dataset);
+        } else {
+            System.out.println("[TDirectory] --> error : data group descriptos does not exist ["+name+"]");
+        }
+    }
+
+    public DataGroup getDataGroup(String name){
+
+        DataGroupDescriptor desc = groupDescriptors.get(name);
+        DataGroup          group = new DataGroup(name,desc.getCols(),desc.getRows());
+
+        int groupSize = desc.getCols()*desc.getRows();
+        for(int i = 0; i < groupSize; i++){
+            List<String>  items = desc.getList(i);
+            String encoded = desc.getEncodedString(i);
+            //System.out.println(i + " : " + encoded);
+            for(String item : items){
+                System.out.println("getting object : " + item);
+                IDataSet ds = this.getObject(item);
+                if(ds!=null){
+                    group.addDataSet(ds, i);
+                }
+            }
+        }
+        return group;
+    }
+
+
+    public void addDataSet(IDataSet... dataSets){
+        for(IDataSet ds : dataSets){
+            add(ds.getName(),ds);
+        }
     }
 
     public void writeFile(String filename){
@@ -41,6 +83,40 @@ public class TDirectory extends Directory<IDataSet> {
             }
         }
         writer.close();
+    }
+
+    public static void addFiles(String outputFile, List<String> inputFiles){
+        TDirectory dir = new TDirectory();
+
+        dir.readFile(inputFiles.get(0));
+
+        List<String>  objectList = dir.getCompositeObjectList(dir);
+
+        System.out.println("********* OBJECT LIST ***********");
+        for(String object : objectList){
+            System.out.println("-> " + object);
+        }
+        System.out.println("******* END OBJECT LIST *********");
+        for(int loop = 1; loop < inputFiles.size(); loop++){
+            TDirectory inDir = new TDirectory();
+            inDir.readFile(inputFiles.get(loop));
+            for(String object : objectList){
+                try {
+                    IDataSet dataset = (IDataSet) dir.getObject(object);
+                    if(dataset instanceof H1F){
+                        H1F h1 = (H1F) dataset;
+                        H1F h2 = (H1F) inDir.getObject(object);
+                        if(h2!=null){
+                            h1.add(h2);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("--> error with dataset : " + object);
+                }
+            }
+        }
+
+        dir.writeFile(outputFile);
     }
 
     public void readFile(String filename){
@@ -71,6 +147,18 @@ public class TDirectory extends Directory<IDataSet> {
 
     public static void main(String[] args){
 
+        if(args.length<3){
+            System.out.println("error: \n\n Usage : hadd [outputfile] [input1] [input2] ....\n\n");
+            System.exit(0);
+        }
+
+        String outputFile = args[0];
+
+        List<String> inputFiles = new ArrayList<>();
+        for(int i = 1; i < args.length;i++) inputFiles.add(args[i]);
+
+        TDirectory.addFiles(outputFile, inputFiles);
+        /*
         TDirectory dir = new TDirectory();
         dir.mkdir("/calibration/PCAL");
         dir.mkdir("/calibration/ECIN");
@@ -118,14 +206,12 @@ public class TDirectory extends Directory<IDataSet> {
         dir.addDataSet(graph);
         DataFitter.fit(func, h1ecout, "N");
         DataFitter.fit(funcL, graph, "N");
-        //graph.setFunction(funcL);
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>");
         System.out.println(func);
         func.setLineColor(2);
         func.setLineWidth(3);
-        //h1ecout.setFunction(func);
-        //dir.addDataSet(new H1F("h1",100,0.1,0.5));
+
         dir.cd();
         dir.tree();
         dir.writeFile("testfile.hipo");
@@ -153,9 +239,6 @@ public class TDirectory extends Directory<IDataSet> {
         c1.draw(h2);
         System.out.println("***********************");
         System.out.println(h1.getFunction());
-        //c1.draw(h1.getFunction(),"same");
-
-
-//c1.draw(h1.getFunction());
+       */
     }
 }
