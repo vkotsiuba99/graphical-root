@@ -109,6 +109,7 @@ public class StudioUI implements MouseListener,ActionListener {
         splitPaneNavigation.setTopComponent(jtree);
         splitPaneNavigation.setBottomComponent(jtreeAnalyzer);
         splitPane.setLeftComponent(splitPaneNavigation);
+//JSplitPane treeSplit =
 
         navigationPane.setBorder(new EmptyBorder(5,5,5,5));
         navigationPane.setLayout(new BorderLayout());
@@ -206,6 +207,8 @@ public class StudioUI implements MouseListener,ActionListener {
                 System.out.println(path.getLastPathComponent().toString());
                 scanTreeItem(path.getLastPathComponent().toString());
                 String cutString = path.getLastPathComponent().toString();
+                this.updateTree();
+
                 //if(cutString.contains("Selector")==true){
                 //    addCut();
                 //}
@@ -230,16 +233,13 @@ public class StudioUI implements MouseListener,ActionListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-        this.updateTree();
     }
 
     public void addDescriptor(){
-        DescriptorPanel  panel = null;
-
-        panel = new DescriptorPanel(studioTree,analyzer,2);
+        // panel = new DescriptorPanel(studioTree,analyzer,2);
         JFrame frame = new JFrame("Edit Histogram");
 
-        panel = new DescriptorPanel(studioTree,analyzer);
+        DescriptorPanel panel = new DescriptorPanel(studioTree,analyzer);
 
 
         frame.add(panel);
