@@ -2,6 +2,7 @@ package org.jlab.groot.data;
 
 import org.jlab.groot.base.DatasetAttributes;
 import org.jlab.groot.base.GStyle;
+import org.jlab.groot.math.Func1D;
 import org.jlab.groot.ui.PaveText;
 
 public class GraphErrors implements IDataSet {
@@ -14,12 +15,11 @@ public class GraphErrors implements IDataSet {
     private String graphName = "graphErrors";
     private DatasetAttributes  graphAttr = null;
 
+    private Func1D  fitFunction = null;
 
     public GraphErrors(){
         initAttributes();
     }
-
-
 
     public GraphErrors(String name, double[] x, double y[], double[] ex, double[] ey){
         setName(name);
@@ -38,7 +38,7 @@ public class GraphErrors implements IDataSet {
     }
 
     public GraphErrors(String name) {
-        setName(name);
+        graphName = name;
         initAttributes();
     }
 
@@ -50,6 +50,13 @@ public class GraphErrors implements IDataSet {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public Func1D getFunction(){return fitFunction;}
+
+    public void setFunction(Func1D func){
+        fitFunction = func;
+        func.getAttributes().setOptStat(this.getAttributes().getOptStat());
     }
 
     public final void addPoint(double x, double y, double ex, double ey){

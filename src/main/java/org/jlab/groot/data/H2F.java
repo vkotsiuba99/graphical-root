@@ -15,6 +15,7 @@ public class H2F implements IDataSet {
     private Axis yAxis = new Axis();
     private float[] hBuffer;
     private MultiIndex offset;
+
     private DatasetAttributes attr = new DatasetAttributes(DatasetAttributes.HISTOGRAM2D);
     private Float     maximumBinValue = 0.0f;
 
@@ -116,6 +117,7 @@ public class H2F implements IDataSet {
      *
      * @return the name of the Histogram
      */
+    @Override
     public String getName() {
         return hName;
     }
@@ -233,6 +235,17 @@ public class H2F implements IDataSet {
         attr.setTitle(title);
     }
 
+    public int getDataBufferSize(){
+        return this.hBuffer.length;
+    }
+
+    public float getDataBufferBin(int bin){
+        return this.hBuffer[bin];
+    }
+
+    public void setDataBufferBin(int bin, float value){
+        hBuffer[bin] = value;
+    }
     /**
      * Sets the bin to that value
      *
