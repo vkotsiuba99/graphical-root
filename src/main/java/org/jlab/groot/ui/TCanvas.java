@@ -80,6 +80,10 @@ public class TCanvas extends JFrame {
         this.getCanvas().update();
     }
 
+    public void save(String filename){
+        this.canvas.save(filename);
+    }
+
     public static void main(String[] args){
 
 
