@@ -1,5 +1,6 @@
 package org.jlab.groot.graphics;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -15,7 +16,7 @@ import org.jlab.groot.ui.LatexText;
 
 public class GraphicsAxis {
 
-    private AxisAttributes attr			    = new AxisAttributes();
+    private AxisAttributes attr		    = new AxisAttributes();
     public static int  AXISTYPE_COLOR       = 1;
     public static int  AXISTYPE_HORIZONTAL  = 2;
     public static int  AXISTYPE_VERTICAL    = 3;
@@ -28,8 +29,7 @@ public class GraphicsAxis {
     private        Boolean                  isLogarithmic   = false;
     private        Boolean                  isVertical      = false;
     private        Boolean                  isColorAxis     = false;
-
-    private final  GraphicsAxisTicks        axisTicks         = new GraphicsAxisTicks();
+    private final  GraphicsAxisTicks        axisTicks       = new GraphicsAxisTicks();
 
 
     /**
@@ -252,8 +252,65 @@ public class GraphicsAxis {
         return (int) axisBounds;
     }
 
+    public void drawAxisGrid(Graphics2D g2d, int x, int y, int height){
+
+        if(this.isColorAxis==true) return;
+
+        g2d.setColor(new Color(200,200,200));
+        g2d.setStroke(GStyle.getStroke(2));
+
+        if(this.isVertical==false){
+            List<Double>     ticks = axisTicks.getAxisTicks();
+            for(double tick : ticks){
+                //System.out.println(" tick = " + tick);
+                int xtick = (int) this.getAxisPosition(tick);
+                g2d.drawLine(xtick,y,xtick,y-height);
+                //g2d.drawLine(x,(int) tick,x+height,(int) tick);
+            }
+        } else {
+            List<Double>     ticks = axisTicks.getAxisTicks();
+            for(double tick : ticks){
+                //System.out.println(" tick = " + tick);
+                int ytick = (int) this.getAxisPosition(tick);
+                g2d.drawLine(x,ytick,x+height,ytick);
+                //g2d.drawLine(x,(int) tick,x+height,(int) tick);
+            }
+        }
+
+        g2d.setColor(Color.black);
+        g2d.setStroke(new BasicStroke(1));
+    }
+
+    public void drawAxisMirror(Graphics2D g2d, int x, int y, int height){
+        if(this.isColorAxis==true) return;
+
+        g2d.setColor(Color.black);
+        g2d.setStroke(new BasicStroke(1));
+        //g2d.setStroke(GStyle.getStroke(2));
+        if(this.isVertical==false){
+            List<Double>     ticks = axisTicks.getAxisTicks();
+            for(double tick : ticks){
+                //System.out.println(" tick = " + tick);
+                int xtick = (int) this.getAxisPosition(tick);
+                g2d.drawLine(xtick,y-height,xtick,y-height+this.getAttributes().getTickSize());
+                //g2d.drawLine(x,(int) tick,x+height,(int) tick);
+            }
+        } else {
+            List<Double>     ticks = axisTicks.getAxisTicks();
+            for(double tick : ticks){
+                //System.out.println(" tick = " + tick);
+                int ytick = (int) this.getAxisPosition(tick);
+                g2d.drawLine(x+height-this.getAttributes().getTickSize(),ytick,x+height,ytick);
+                //g2d.drawLine(x,(int) tick,x+height,(int) tick);
+            }
+        }
+    }
 
     public void drawAxis(Graphics2D g2d, int x, int y){
+        this.drawAxis(g2d, x, y, 0);
+    }
+
+    public void drawAxis(Graphics2D g2d, int x, int y, int height){
 
         if(this.isColorAxis==true){
             this.drawColorAxis(g2d, x, y);
@@ -266,6 +323,13 @@ public class GraphicsAxis {
         this.setAxisDivisions(10);
         axisTicks.updateFont(getLabelFont());
         this.updateAxisDivisions(g2d);
+
+        if(height>5){
+            this.drawAxisMirror(g2d, x, y, height);
+            if(this.getAttributes().getGrid()==true){
+                this.drawAxisGrid(g2d, x, y, height);
+            }
+        }
 
         List<Double>     ticks = axisTicks.getAxisTicks();
         List<LatexText>  texts = axisTicks.getAxisTexts();

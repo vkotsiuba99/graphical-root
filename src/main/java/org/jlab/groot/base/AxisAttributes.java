@@ -28,8 +28,10 @@ import net.miginfocom.swing.MigLayout;
 
 public class AxisAttributes implements Cloneable{
 
-    private Dimension1D              axisDimension   = new Dimension1D();
-    Dimension1D range = new Dimension1D();
+    private Dimension1D  axisDimension   = new Dimension1D();
+    //private Dimension1D  axisDimension   = new Dimension1D();
+
+    Dimension1D                    range = new Dimension1D();
 
     private String  labelFontName    = "Avenir";
     private int     labelFontSize    = 12;
@@ -51,8 +53,7 @@ public class AxisAttributes implements Cloneable{
     private LatexText axisTitle      = new LatexText(axisTitleString);
     private FontProperties labelFont = new FontProperties();
     private FontProperties titleFont = new FontProperties();
-
-    private EmbeddedCanvas can      = null;
+    private EmbeddedCanvas can       = null;
 
     public AxisAttributes(){
 
