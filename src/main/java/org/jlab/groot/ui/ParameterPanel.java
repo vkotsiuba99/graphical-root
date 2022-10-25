@@ -169,7 +169,8 @@ public class ParameterPanel extends JPanel{
 
     public void updateFitFunction(){
         canvas.cd(index);
-        canvas.draw(fitFunction,"sameL");
+        //canvas.draw(fitFunction,"same");
+        canvas.update();
     }
     public void updateNewFunction(Func1D fitFunction2){
         this.fitFunction = fitFunction2;
