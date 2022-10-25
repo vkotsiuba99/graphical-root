@@ -17,7 +17,6 @@ import javax.swing.JTree;
 import javax.swing.border.BevelBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import org.jlab.groot.data.H1F;
 import org.jlab.groot.data.IDataSet;
@@ -35,6 +34,7 @@ public class TBrowser extends JFrame {
     private TDirectory      browserDir = null;
 
     JTabbedPane tabbedPane;
+
     List<EmbeddedCanvas>  canvasList = new ArrayList<EmbeddedCanvas>();
 
     public TBrowser(){
@@ -140,50 +140,52 @@ public class TBrowser extends JFrame {
 
     public static void main(String[] args){
 
-        String filename = args[0];
+        if(args.length>0){
+            String filename = args[0];
 
-        TDirectory dir = new TDirectory();
+            TDirectory dir = new TDirectory();
 
-        dir.readFile(filename);
+            dir.readFile(filename);
 
-        TBrowser browser = new TBrowser(dir);
+            TBrowser browser = new TBrowser(dir);
+        } else {
 
-        /*
-        TBrowser br = new TBrowser();
-        TDirectory dir = new TDirectory();
-        dir.mkdir("/calibration/FTOF");
-        dir.mkdir("/calibration/ECAL");
-        dir.mkdir("/calibration/PCAL");
 
-        H1F  h1    = FunctionFactory.randomGausian( 80, 0.1, 5.0,  8000, 2.2, 0.5);
-        H1F  h2    = FunctionFactory.randomGausian(120, 0.1, 5.0, 20000, 3.5, 0.4);
-        H1F  h3    = FunctionFactory.randomGausian(160, 0.1, 5.0, 14000, 2.6, 0.3);
-        H1F  h4    = FunctionFactory.randomGausian( 80, 0.1, 5.0,  8000, 2.2, 0.5);
-        H1F  h5    = FunctionFactory.randomGausian(160, 0.1, 5.0, 14000, 2.6, 0.3);
-        H1F  h6    = FunctionFactory.randomGausian(160, 0.1, 5.0, 14000, 2.6, 0.3);
+            TBrowser br = new TBrowser();
+            TDirectory dir = new TDirectory();
+            dir.mkdir("/calibration/FTOF");
+            dir.mkdir("/calibration/ECAL");
+            dir.mkdir("/calibration/PCAL");
 
-        h1.setName("h1");
-        h2.setName("h2");
-        h3.setName("h3");
-        h4.setName("h4");
-        h5.setName("h5");
-        h6.setName("h6");
+            H1F  h1    = FunctionFactory.randomGausian( 80, 0.1, 5.0,  8000, 2.2, 0.5);
+            H1F  h2    = FunctionFactory.randomGausian(120, 0.1, 5.0, 20000, 3.5, 0.4);
+            H1F  h3    = FunctionFactory.randomGausian(160, 0.1, 5.0, 14000, 2.6, 0.3);
+            H1F  h4    = FunctionFactory.randomGausian( 80, 0.1, 5.0,  8000, 2.2, 0.5);
+            H1F  h5    = FunctionFactory.randomGausian(160, 0.1, 5.0, 14000, 2.6, 0.3);
+            H1F  h6    = FunctionFactory.randomGausian(160, 0.1, 5.0, 14000, 2.6, 0.3);
 
-        h1.setFillColor(33);
-        h2.setFillColor(34);
-        h3.setFillColor(36);
-        h4.setFillColor(35);
-        h5.setFillColor(38);
+            h1.setName("h1");
+            h2.setName("h2");
+            h3.setName("h3");
+            h4.setName("h4");
+            h5.setName("h5");
+            h6.setName("h6");
 
-        dir.cd("/calibration/FTOF");
-        dir.addDataSet(h1,h2);
-        dir.cd("/calibration/ECAL");
-        dir.addDataSet(h3,h4);
-        dir.cd("/calibration/PCAL");
-        dir.addDataSet(h5,h6);
+            h1.setFillColor(33);
+            h2.setFillColor(34);
+            h3.setFillColor(36);
+            h4.setFillColor(35);
+            h5.setFillColor(38);
 
-        br.setDirectory(dir);
-        */
+            dir.cd("/calibration/FTOF");
+            dir.addDataSet(h1,h2);
+            dir.cd("/calibration/ECAL");
+            dir.addDataSet(h3,h4);
+            dir.cd("/calibration/PCAL");
+            dir.addDataSet(h5,h6);
+
+            br.setDirectory(dir);
+        }
         /*
         DefaultMutableTreeNode node = dir.getTreeNode();
         br.updateTreeModel(node);
