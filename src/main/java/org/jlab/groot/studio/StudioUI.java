@@ -37,6 +37,7 @@ import org.jlab.groot.ui.CutPanel;
 import org.jlab.groot.ui.DescriptorPanel;
 
 import org.jlab.groot.graphics.HistogramPlotter;
+import org.jlab.groot.tree.TreeTextFile;
 
 public class StudioUI implements MouseListener,ActionListener {
 
@@ -162,11 +163,17 @@ public class StudioUI implements MouseListener,ActionListener {
 
     public void scanTreeItem(String item){
         if(this.studioTree.hasBranch(item)==true){
-            List<Double> vector = studioTree.getVector(item,studioTree.getSelector());
-            DataVector vec = new DataVector(vector);
+            //List<Double> vector = studioTree.getVector(item,studioTree.getSelector());
+            System.out.println("getting vector for item = " + item);
+            DataVector vec = studioTree.getDataVector(item, "aa>0");
+            System.out.println("result = " + vec.getSize());
             H1F  h1d = H1F.create(item, 100, vec);
+            h1d.setTitle(item);
+            h1d.setTitleX(item);
+            h1d.setOptStat(11111);
             h1d.setLineColor(1);
             h1d.setFillColor(43);
+            drawCanvas.draw(h1d);
             //this.drawCanvas.drawNext(h1d);
             //this.drawCanvas.getPad(0).addPlotter(new HistogramPlotter(h1d));
             this.drawCanvas.update();
@@ -195,7 +202,10 @@ public class StudioUI implements MouseListener,ActionListener {
     }
 
     public static void main(String[] args){
-        StudioUI sui = new StudioUI(new RandomTree());
+        TreeTextFile tree = new TreeTextFile("T");
+        tree.readFile("/Users/vkotsiuba99/Desktop/pp_10k.txt");
+        //StudioUI sui = new StudioUI(new RandomTree());
+        StudioUI sui = new StudioUI(tree);
     }
 
     @Override
