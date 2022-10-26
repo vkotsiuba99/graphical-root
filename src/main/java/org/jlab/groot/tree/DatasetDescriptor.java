@@ -28,7 +28,6 @@ public class DatasetDescriptor {
 
     }
 
-
     public DatasetDescriptor(String name, int nbins, double min, double max, String exp, ITree tree){
         this.descName = name;
         this.setExpression(exp, tree);
@@ -130,4 +129,5 @@ public class DatasetDescriptor {
     }
 
     public IDataSet getDataSet(){return descDataset.get(0);}
+
 }
