@@ -53,6 +53,10 @@ public class EmbeddedPad {
         return this;
     }
 
+    public void clear(){
+        this.datasetPlotters.clear();
+    }
+
     public void setAxisRange(double xmin, double xmax, double ymin, double ymax){
         this.getAxisX().setRange(xmin, xmax);
         this.getAxisY().setRange(ymin, ymax);
@@ -223,7 +227,7 @@ public class EmbeddedPad {
                 statBox.setFontSize(this.attr.getStatBoxFont().getFontSize());
 
                 statBox.updateDimensions(g2d);
-                statBox.setBackground(255, 255, 255);
+                statBox.setBackground(255, 255, 255, 200);
                 int x = (int) (axisFrame.getFrameDimensions().getDimension(0).getMax() - statBox.getBounds().getDimension(0).getLength()-5) +this.attr.getStatBoxOffsetX();
                 int y = (int) (axisFrame.getFrameDimensions().getDimension(1).getMin()+5) +this.attr.getStatBoxOffsetY();
                 statBox.setPosition(x-this.attr.getPadMargins().getRightMargin(), y+this.attr.getPadMargins().getTopMargin());
