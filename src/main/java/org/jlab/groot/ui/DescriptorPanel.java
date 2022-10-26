@@ -127,46 +127,46 @@ public class DescriptorPanel extends JPanel {
         saveAndClose.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(descriptor==null){
-                    if(type==DatasetDescriptor.DESCRIPTOR_H1){
-                        String expressionx = branchVariableFieldX.getText();
-                        int binsx = Integer.parseInt(binTextFieldX.getText());
-                        Double minx = Double.parseDouble(minTextFieldX.getText());
-                        Double maxx = Double.parseDouble(maxTextFieldX.getText());
-                        descriptor = new DatasetDescriptor(descriptorName.getText(),binsx,minx,maxx,expressionx,tree);
-                    }else if(type==DatasetDescriptor.DESCRIPTOR_H2){
-                        String expressionx = branchVariableFieldX.getText();
-                        int binsx = Integer.parseInt(binTextFieldX.getText());
-                        Double minx = Double.parseDouble(minTextFieldX.getText());
-                        Double maxx = Double.parseDouble(maxTextFieldX.getText());
-                        String expressiony = branchVariableFieldY.getText();
-                        int binsy = Integer.parseInt(binTextFieldY.getText());
-                        Double miny = Double.parseDouble(minTextFieldY.getText());
-                        Double maxy = Double.parseDouble(maxTextFieldY.getText());
-                        descriptor = new DatasetDescriptor(descriptorName.getText(),binsx,minx,maxx,binsy,miny,maxy,expressionx+":"+expressiony,tree);
-                    }else{
-                        String x = branchVariableFieldX.getText();
-                        String xerr = branchVariableFieldXerr.getText();
-                        String y = branchVariableFieldY.getText();
-                        String yerr = branchVariableFieldYerr.getText();
-                        if((xerr==""||xerr=="0")&&(yerr==""||yerr=="0")){
-                            descriptor = new DatasetDescriptor(descriptorName.getText(),x+":"+y,tree);
-                        }else if((xerr==""||xerr=="0")){
-                            descriptor = new DatasetDescriptor(descriptorName.getText(),x+":"+y+":"+yerr,tree);
-                        }else{
-                            descriptor = new DatasetDescriptor(descriptorName.getText(),x+":"+y+":"+xerr+":"+yerr,tree);
-                        }
-                    }
-                    //descriptor =  new DatasetDescriptor(name.getText(),Integer.parseInt(binTextFieldX.getText()), Double.parseDouble(minTextFieldX.getText()),Double.parseDouble(maxTextFieldX.getText()));
-                    for(int i=0; i<cutBoxes.size(); i++){
-                        if(cutBoxes.get(i).isSelected()){
-                            descriptor.addCut(cutMap.get(cutStrings.get(i)));
-                        }
-                    }
-                    treeAnalyzer.addDescriptor(descriptor);
+                //if(descriptor==null){
+                if(type==DatasetDescriptor.DESCRIPTOR_H1){
+                    String expressionx = branchVariableFieldX.getText();
+                    int binsx = Integer.parseInt(binTextFieldX.getText());
+                    Double minx = Double.parseDouble(minTextFieldX.getText());
+                    Double maxx = Double.parseDouble(maxTextFieldX.getText());
+                    descriptor = new DatasetDescriptor(descriptorName.getText(),binsx,minx,maxx,expressionx,tree);
+                }else if(type==DatasetDescriptor.DESCRIPTOR_H2){
+                    String expressionx = branchVariableFieldX.getText();
+                    int binsx = Integer.parseInt(binTextFieldX.getText());
+                    Double minx = Double.parseDouble(minTextFieldX.getText());
+                    Double maxx = Double.parseDouble(maxTextFieldX.getText());
+                    String expressiony = branchVariableFieldY.getText();
+                    int binsy = Integer.parseInt(binTextFieldY.getText());
+                    Double miny = Double.parseDouble(minTextFieldY.getText());
+                    Double maxy = Double.parseDouble(maxTextFieldY.getText());
+                    descriptor = new DatasetDescriptor(descriptorName.getText(),binsx,minx,maxx,binsy,miny,maxy,expressionx+":"+expressiony,tree);
                 }else{
-                    System.out.println("Nope");
+                    String x = branchVariableFieldX.getText();
+                    String xerr = branchVariableFieldXerr.getText();
+                    String y = branchVariableFieldY.getText();
+                    String yerr = branchVariableFieldYerr.getText();
+                    if((xerr==""||xerr=="0")&&(yerr==""||yerr=="0")){
+                        descriptor = new DatasetDescriptor(descriptorName.getText(),x+":"+y,tree);
+                    }else if((xerr==""||xerr=="0")){
+                        descriptor = new DatasetDescriptor(descriptorName.getText(),x+":"+y+":"+yerr,tree);
+                    }else{
+                        descriptor = new DatasetDescriptor(descriptorName.getText(),x+":"+y+":"+xerr+":"+yerr,tree);
+                    }
                 }
+                //descriptor =  new DatasetDescriptor(name.getText(),Integer.parseInt(binTextFieldX.getText()), Double.parseDouble(minTextFieldX.getText()),Double.parseDouble(maxTextFieldX.getText()));
+                for(int i=0; i<cutBoxes.size(); i++){
+                    if(cutBoxes.get(i).isSelected()){
+                        descriptor.addCut(cutMap.get(cutStrings.get(i)));
+                    }
+                }
+                treeAnalyzer.addDescriptor(descriptor);
+				/*}else{
+					System.out.println("Nope");
+				}*/
 
                 System.out.println("Save and close descriptor!");
                 SwingUtilities.getWindowAncestor(branchVariableFieldX).dispose();

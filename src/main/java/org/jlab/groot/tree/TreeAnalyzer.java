@@ -7,6 +7,14 @@ import org.jlab.groot.data.IDataSet;
 
 public class TreeAnalyzer {
     List<DatasetDescriptor>   datasets = new ArrayList<DatasetDescriptor>();
+    DynamicTree tree = new DynamicTree("Dataset Descriptors");
+    public DynamicTree getTree() {
+        return tree;
+    }
+
+    public void setTree(DynamicTree tree) {
+        this.tree = tree;
+    }
 
     public TreeAnalyzer(){
 
@@ -14,6 +22,10 @@ public class TreeAnalyzer {
 
     public void addDescriptor(DatasetDescriptor desc){
         this.datasets.add(desc);
+        tree.addObject(desc.getDescName());
+        System.out.println("Adding Descriptor"+desc.getDescName());
+        tree.repaint();
+        tree.revalidate();
     }
 
     public void process(ITree tree){
@@ -41,14 +53,14 @@ public class TreeAnalyzer {
         return this.datasets;
     }
 
-    public DefaultMutableTreeNode getTree() {
-
+    /*
+     public DefaultMutableTreeNode getTree() {
         DefaultMutableTreeNode root         = new DefaultMutableTreeNode("Analyzer");
 
         for(DatasetDescriptor desc : datasets){
             //root.add(new DefaultMutableTreeNode(desc.getName()));
         }
         return root;
-    }
+     }*/
 
 }
