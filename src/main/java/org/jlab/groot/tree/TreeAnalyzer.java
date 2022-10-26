@@ -17,10 +17,21 @@ public class TreeAnalyzer {
     }
 
     public void process(ITree tree){
-        tree.reset();
+        process(tree,-1);
+    }
 
-        while(tree.readNext()==true){
+    public void process(ITree tree, int limit){
+        tree.reset();
+        for(DatasetDescriptor desc : datasets){
+            desc.getDataSet().reset();
+        }
+        int nentries = tree.getEntries();
+
+        for(int i = 0; i < nentries; i++){
+            tree.readEntry(i);
+            if(i>limit&&limit>0) break;
             for(DatasetDescriptor desc : datasets){
+                desc.fill(tree);
                 //if(desc.getDataSet() instanceof )
             }
         }

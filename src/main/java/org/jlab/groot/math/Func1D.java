@@ -232,4 +232,9 @@ public class Func1D implements IDataSet {
     public void estimateParameters(){};
     public double[] getParameterEstimate(){return null;}
 
+    @Override
+    public void reset() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

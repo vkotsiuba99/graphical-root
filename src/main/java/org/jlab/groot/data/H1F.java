@@ -201,6 +201,7 @@ public class H1F  implements IDataSet {
     /**
      * Resets all bins to 0
      */
+    @Override
     public void reset(){
         this.histogramEntries = 0;
         this.histogramOverFlow = 0;
