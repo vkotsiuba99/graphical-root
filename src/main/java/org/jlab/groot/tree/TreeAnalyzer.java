@@ -6,7 +6,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.jlab.groot.data.IDataSet;
 
 public class TreeAnalyzer {
-
     List<DatasetDescriptor>   datasets = new ArrayList<DatasetDescriptor>();
 
     public TreeAnalyzer(){
