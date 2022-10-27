@@ -15,6 +15,8 @@ public class PadAttributes {
     private  PadMargins  padMargins       = new PadMargins();
     private int statBoxOffsetX = 0;
     private int statBoxOffsetY = 0;
+    private int lineStyle      = 1;
+    private int lineWidth      = 1;
 
 
     public Color getBackgroundColor() {
@@ -82,6 +84,20 @@ public class PadAttributes {
     }
     public void setTitleFontSize(int titleFontSize) {
         this.titleFont.setFontSize(titleFontSize);
+    }
+
+    public int getLineStyle() {
+        return lineStyle;
+    }
+    public void setLineStyle(int lineStyle) {
+        this.lineStyle = lineStyle;
+    }
+
+    public int getLineWidth() {
+        return lineWidth;
+    }
+    public void setLineWidth(int lineWidth) {
+        this.lineWidth = lineWidth;
     }
 
     public static class PadAttributesPane extends JPanel implements ActionListener{
