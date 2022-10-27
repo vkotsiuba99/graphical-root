@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.jlab.groot.data.GraphErrors;
+import org.jlab.groot.ui.JComboCheckBox;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -157,7 +158,8 @@ public class DatasetAttributes implements Cloneable {
         private  int[] sizeChoicesInts    = new int[10];
         private  String[] markerChoices   = new String[4];
         private  int[] markerChoicesInts  = new int[4];
-
+        private  String[] lineStyleChoices   = new String[5];
+        private  int[] lineStyleChoicesInts  = new int[5];
 
         private JComboBox boxLineColor = null;
         private JComboBox boxLineWidth = null;
@@ -169,7 +171,7 @@ public class DatasetAttributes implements Cloneable {
 
         private JComboBox boxFillColor = null;
         private JTextField optStatTextField = null;
-
+        private JComboCheckBox optStatCheckBox = null;
         private List<ActionListener> listeners = new ArrayList<ActionListener>();
 
         public DatasetAttributesPane(DatasetAttributes da){
@@ -197,6 +199,10 @@ public class DatasetAttributes implements Cloneable {
                     }
                     markerChoicesInts[i] = i;
                 }
+                if(i<lineStyleChoices.length){
+                    lineStyleChoices[i] = ""+(i+1);
+                    lineStyleChoicesInts[i] = i+1;
+                }
             }
 
             JLabel labelLineColor  = new JLabel("Line Color:");
@@ -205,10 +211,10 @@ public class DatasetAttributes implements Cloneable {
 
             boxLineColor = new JComboBox(colorChoices);
             boxLineWidth = new JComboBox(sizeChoices);
-            boxLineStyle = new JComboBox(markerChoices);
+            boxLineStyle = new JComboBox(lineStyleChoices);
             boxLineColor.setSelectedIndex(returnIndex(colorChoicesInts,attr.getLineColor()));
             boxLineWidth.setSelectedIndex(returnIndex(sizeChoicesInts,attr.getLineWidth()));
-            boxLineStyle.setSelectedIndex(returnIndex(markerChoicesInts,attr.getLineStyle()));
+            boxLineStyle.setSelectedIndex(returnIndex(lineStyleChoicesInts,attr.getLineStyle()));
 
             boxLineColor.addActionListener(this);
             boxLineWidth.addActionListener(this);
@@ -292,7 +298,7 @@ public class DatasetAttributes implements Cloneable {
             }else if(e.getSource()==boxLineWidth){
                 attr.setLineWidth(Integer.parseInt(sizeChoices[boxLineWidth.getSelectedIndex()]));
             }else if(e.getSource()==boxLineStyle){
-                attr.setLineStyle(Integer.parseInt(markerChoices[boxLineStyle.getSelectedIndex()]));
+                attr.setLineStyle(Integer.parseInt(lineStyleChoices[boxLineStyle.getSelectedIndex()]));
             }else if(e.getSource()==boxMarkerColor){
                 attr.setMarkerColor(Integer.parseInt(colorChoices[boxMarkerColor.getSelectedIndex()]));
             }else if(e.getSource()==boxMarkerSize){
