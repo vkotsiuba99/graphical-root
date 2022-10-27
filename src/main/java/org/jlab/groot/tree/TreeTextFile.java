@@ -187,7 +187,7 @@ public class TreeTextFile extends Tree implements TreeProvider {
 
     @Override
     public TreeModel getTreeModel() {
-        return new DefaultTreeModel(getTree());
+        return new DefaultTreeModel(getRootNode());
     }
 
     @Override
