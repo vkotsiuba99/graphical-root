@@ -519,7 +519,7 @@ public class StudioUI implements MouseListener, ActionListener {
         GStyle.getH1FAttributes().setFillColor(44);
         GStyle.getH1FAttributes().setOptStat("1110");        TreeTextFile tree = new TreeTextFile("TextTree");
         // tree.readFile("/Users/vkotsiuba99/Desktop/pp_10k.txt");
-        tree.readFile("/Users/vkotsiuba99/Desktop/GROOTTree/pp_10k_wlab.txt");
+        tree.readFile("src/main/resources/sample_data/studio_data/pp_10k_wlab.txt");
         // StudioUI sui = new StudioUI(new RandomTree());
         StudioUI sui = new StudioUI(tree);
     }
