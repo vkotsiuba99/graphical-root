@@ -42,6 +42,7 @@ public class TreeFile extends Tree {
         headerRecord.addEvent(event.getDataBuffer());
 
         writer = new HipoWriter();
+        writer.addHeader(str.toString());
 
 
     }
