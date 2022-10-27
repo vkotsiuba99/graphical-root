@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JDialog;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import org.jlab.groot.data.DataVector;
 import org.jlab.groot.data.H1F;
+import org.jlab.groot.data.H2F;
 import org.jlab.groot.graphics.EmbeddedCanvas;
 
 public class TreeTextFile extends Tree implements TreeProvider {
@@ -191,16 +193,39 @@ public class TreeTextFile extends Tree implements TreeProvider {
     }
 
     @Override
-    public void actionTreeNode(TreePath path, EmbeddedCanvas canvas, int limit) {
-        String variable = path.getLastPathComponent().toString();
-        DataVector vec = getDataVector(variable, "", limit);
-        H1F h1d = H1F.create(variable, 100, vec);
-        h1d.setTitle(variable);
-        h1d.setTitleX(variable);
-        h1d.setOptStat(11111);
-        h1d.setLineColor(1);
-        h1d.setFillColor(43);
-        canvas.drawNext(h1d);
+    public void actionTreeNode(TreePath[] path, EmbeddedCanvas canvas, int limit) {
+
+        String expression = "";
+
+        if(path.length==1){
+            expression = path[0].getLastPathComponent().toString();
+            DataVector vec = getDataVector(expression, "", limit);
+            H1F h1d = H1F.create(expression, 100, vec);
+            h1d.setTitle(expression);
+            h1d.setTitleX(expression);
+            h1d.setOptStat(11111);
+            h1d.setLineColor(1);
+            h1d.setFillColor(43);
+            canvas.drawNext(h1d);
+            canvas.update();
+        }
+
+        if(path.length>1){
+            String xTitle = path[0].getLastPathComponent().toString();
+            String yTitle = path[1].getLastPathComponent().toString();
+
+            expression = xTitle +":"+yTitle;
+
+            scanTree(expression, "", limit,false);
+            List<DataVector> vecs = this.getScanResults();
+            H2F h2d = H2F.create(expression, 100,100,vecs.get(0),vecs.get(1));
+            h2d.setTitle(expression);
+            h2d.setTitleX(xTitle);
+            h2d.setTitleY(yTitle);
+            canvas.drawNext(h2d);
+            canvas.update();
+        }
+
         // this.drawCanvas.drawNext(h1d);
         // this.drawCanvas.getPad(0).addPlotter(new HistogramPlotter(h1d));
         canvas.update();
@@ -237,6 +262,7 @@ public class TreeTextFile extends Tree implements TreeProvider {
             System.out.println(" element " + i + " =  " + vec.getValue(i));
         }
     }
+
 
 
 }

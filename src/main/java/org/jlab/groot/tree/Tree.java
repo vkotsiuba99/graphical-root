@@ -319,7 +319,46 @@ public class Tree implements ITree {
         return this.treeBranches.containsKey(name);
     }
 
-    public DynamicTree getTree() {
+    public DefaultMutableTreeNode getRootNode(){
+        DefaultMutableTreeNode root         = new DefaultMutableTreeNode(getName());
+        //DefaultMutableTreeNode rootbranch   = new DefaultMutableTreeNode("Branches");
+        //root.add(rootbranch);
+
+        //tree.addObject(rootbranch);
+        List<String> branches = getListOfBranches();
+        for(String item : branches){
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode(item);
+            root.add(node);
+            //rootbranch.add(new DefaultMutableTreeNode(item));
+        }
+        return root;
+    }
+    /*
+    public TreeNode getTree() {
+    	DynamicTree tree = new DynamicTree(getName());
+        DefaultMutableTreeNode root         = new DefaultMutableTreeNode(getName());
+        //DefaultMutableTreeNode rootbranch   = new DefaultMutableTreeNode("Branches");
+        //root.add(rootbranch);
+        //tree.addObject(rootbranch);
+        List<String> branches = getListOfBranches();
+        for(String item : branches){
+        	tree.addObject(item);
+            //rootbranch.add(new DefaultMutableTreeNode(item));
+        }
+        return tree;
+    }*/
+
+    @Override
+    public int getEntries() {
+        return 0;
+    }
+
+    @Override
+    public int readEntry(int entry) {
+        return 0;
+    }
+
+    public DynamicTree getDynamicTree() {
         DynamicTree tree = new DynamicTree(getName());
 
         DefaultMutableTreeNode root         = new DefaultMutableTreeNode(getName());
@@ -333,16 +372,6 @@ public class Tree implements ITree {
             //rootbranch.add(new DefaultMutableTreeNode(item));
         }
         return tree;
-    }
-
-    @Override
-    public int getEntries() {
-        return 0;
-    }
-
-    @Override
-    public int readEntry(int entry) {
-        return 0;
     }
 
 }

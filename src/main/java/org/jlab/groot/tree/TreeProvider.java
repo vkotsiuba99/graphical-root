@@ -9,7 +9,7 @@ public interface TreeProvider {
 
     Tree        tree();
     TreeModel   getTreeModel();
-    void        actionTreeNode(TreePath path, EmbeddedCanvas canvas, int limit);
+    void        actionTreeNode(TreePath[] path, EmbeddedCanvas canvas, int limit);
     void        setSource(String filename);
     JDialog     treeConfigure();
 

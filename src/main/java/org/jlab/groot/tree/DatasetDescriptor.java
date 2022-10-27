@@ -234,7 +234,7 @@ public class DatasetDescriptor extends AbstractDescriptor {
     }
 
     @Override
-    public JDialog edit() {
+    public JDialog edit(Tree tree) {
         return null;
     }
 
