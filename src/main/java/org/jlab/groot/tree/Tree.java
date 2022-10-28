@@ -261,7 +261,7 @@ public class Tree implements ITree {
 
         int eventsLimit = limit;
 
-        if(limit>=getEntries()){
+        if(limit>=getEntries()||limit<0){
             eventsLimit = getEntries();
         }
 

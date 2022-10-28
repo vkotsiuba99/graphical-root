@@ -79,19 +79,17 @@ public class StudioUI implements MouseListener, ActionListener {
     JSplitPane thirdSplitPane = null;
     JScrollPane scrollPane = null;
     JCheckBoxMenuItem menuPreviewMode;
-    String lastLeaf = null;
+    TreePath lastLeaf = null;
 
     public StudioUI(TreeProvider tree) {
         frame = new JFrame("GROOT Studio");
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                if (JOptionPane.showConfirmDialog(frame,
-                        "Are you sure to close this window?", "Really Closing?",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                if (JOptionPane.showConfirmDialog(frame, "Are you sure to close this window?", "Really Closing?",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                     frame.setVisible(false);
-                    //System.exit(0);
+                    // System.exit(0);
                 }
             }
         });
@@ -118,7 +116,7 @@ public class StudioUI implements MouseListener, ActionListener {
 
         splitPane = new JSplitPane();
         navigationPane = new JPanel();
-        //navigationPane.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        // navigationPane.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
         JPanel canvasPane = new JPanel();
         canvasPane.setLayout(new BorderLayout());
@@ -129,30 +127,30 @@ public class StudioUI implements MouseListener, ActionListener {
         canvasPane.add(drawCanvasTabbed, BorderLayout.CENTER);
         splitPane.setRightComponent(canvasPane);
 
-
-        //DefaultMutableTreeNode top = studioTree.getTree();
+        // DefaultMutableTreeNode top = studioTree.getTree();
         DynamicTree top = studioTree.tree().getDynamicTree();
-        //jtree = new JTree(top);
+        // jtree = new JTree(top);
         top.getTree().addMouseListener(this);
-        //top.setMinimumSize(new Dimension(100, 50));
+        // top.setMinimumSize(new Dimension(100, 50));
 
-        //DefaultMutableTreeNode topa = analyzer.getTree();
-        //jtreeAnalyzer = new JTree(topa);
+        // DefaultMutableTreeNode topa = analyzer.getTree();
+        // jtreeAnalyzer = new JTree(topa);
         scrollPane = new JScrollPane(top);
         secondSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         thirdSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
         secondSplitPane.setTopComponent(scrollPane);
-        //DynamicTree tree = new DynamicTree();
-        //JScrollPane scrollPane2 = new JScrollPane(jtreeAnalyzer);
-		/*JScrollPane scrollPane2 = new JScrollPane(tree);
-		DefaultMutableTreeNode node = tree.addObject("Tree");
-		tree.addObject(node,"tree1");
-		tree.addObject(node,"tree2");
-		tree.addObject(node,"tree3");*/
+        // DynamicTree tree = new DynamicTree();
+        // JScrollPane scrollPane2 = new JScrollPane(jtreeAnalyzer);
+        /*
+         * JScrollPane scrollPane2 = new JScrollPane(tree);
+         * DefaultMutableTreeNode node = tree.addObject("Tree");
+         * tree.addObject(node,"tree1"); tree.addObject(node,"tree2");
+         * tree.addObject(node,"tree3");
+         */
         thirdSplitPane.setTopComponent(studioTree.tree().getSelector().getTree());
         thirdSplitPane.setBottomComponent(analyzer.getTree());
-        analyzer.getTree().getTree().addMouseListener(new MouseListener(){
+        analyzer.getTree().getTree().addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -161,21 +159,25 @@ public class StudioUI implements MouseListener, ActionListener {
                     TreePath path = analyzer.getTree().getTree().getPathForLocation(e.getX(), e.getY());
                     if (path != null) {
                         System.out.println(path.getLastPathComponent().toString());
-                        for(int i=0; i<analyzer.getDescriptors().size(); i++){
-                            if(analyzer.getDescriptors().get(i).getDescName() == path.getLastPathComponent().toString()){
+                        for (int i = 0; i < analyzer.getDescriptors().size(); i++) {
+                            if (analyzer.getDescriptors().get(i).getDescName() == path.getLastPathComponent()
+                                    .toString()) {
                                 System.out.println(e.getModifiers());
-                                if((e.getModifiers() & InputEvent.SHIFT_MASK) != 0){
+                                if ((e.getModifiers() & InputEvent.SHIFT_MASK) != 0) {
                                     System.out.println("Drawing same");
-                                    drawCanvasTabbed.getCanvas().draw(analyzer.getDescriptors().get(i).getDataSet(),"same");
+                                    drawCanvasTabbed.getCanvas().draw(analyzer.getDescriptors().get(i).getDataSet(),
+                                            "same");
                                     drawCanvasTabbed.getCanvas().update();
-                                }else{
-                                    drawCanvasTabbed.getCanvas().drawNext(analyzer.getDescriptors().get(i).getDataSet());
+                                } else {
+                                    drawCanvasTabbed.getCanvas()
+                                            .drawNext(analyzer.getDescriptors().get(i).getDataSet());
                                     drawCanvasTabbed.getCanvas().update();
                                 }
                             }
                         }
-                        //scanTreeItem(path.getLastPathComponent().toString());
-                        //String cutString = path.getLastPathComponent().toString();
+                        // scanTreeItem(path.getLastPathComponent().toString());
+                        // String cutString =
+                        // path.getLastPathComponent().toString();
                     }
                 }
             }
@@ -206,9 +208,7 @@ public class StudioUI implements MouseListener, ActionListener {
 
         });
 
-
         secondSplitPane.setBottomComponent(thirdSplitPane);
-
 
         splitPane.setLeftComponent(secondSplitPane);
         splitPane.setDividerLocation(0.5);
@@ -258,13 +258,12 @@ public class StudioUI implements MouseListener, ActionListener {
 
         JMenu menuEdit = new JMenu("Edit");
         menuPreviewMode = new JCheckBoxMenuItem("Preview Mode");
-        JMenuItem menuOperations  = new JMenuItem("Operations");
+        JMenuItem menuOperations = new JMenuItem("Operations");
         menuOperations.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 datasetOperationDialog();
             }
         });
-
 
         JMenu menuRun = new JMenu("Run");
         JMenuItem menuItemPlay = new JMenuItem("Play");
@@ -396,7 +395,7 @@ public class StudioUI implements MouseListener, ActionListener {
             System.out.println("Open new hipo File:" + file);
             TreeFile tree = new TreeFile("HipoTree");
             tree.openFile(file);
-            //new StudioUI(tree);
+            // new StudioUI(tree);
         }
     }
     public void openASCIIFile(String file) {
@@ -421,13 +420,13 @@ public class StudioUI implements MouseListener, ActionListener {
         JDialog dialog = DatasetOperations.createOperations(frame, drawCanvasTabbed.getCanvas().getObjectMap());
         dialog.setLocationRelativeTo(this.frame);
         dialog.setVisible(true);
-        List<IDataSet> results =  ((DatasetOperations) dialog.getContentPane()).getResults();
+        List<IDataSet> results = ((DatasetOperations) dialog.getContentPane()).getResults();
         System.out.println("Finished operation result size = " + results.size());
-        for(int i = 0; i < results.size(); i++){
+        for (int i = 0; i < results.size(); i++) {
             drawCanvasTabbed.getCanvas().drawNext(results.get(i));
         }
-        //dialog.setLocationRelativeTo(this.frame);
-        //dialog.setVisible(true);
+        // dialog.setLocationRelativeTo(this.frame);
+        // dialog.setVisible(true);
     }
 
     public String chooseFile(String name, boolean open) {
@@ -451,65 +450,55 @@ public class StudioUI implements MouseListener, ActionListener {
         }
     }
 
-    public H1F scanTreeItem(String item) {
-        if (this.studioTree.tree().hasBranch(item) == true) {
-            // List<Double> vector =
-            // studioTree.getVector(item,studioTree.getSelector());
-            System.out.println("getting vector for item = " + item);
-            DataVector vec;
-            if (this.previewMode) {
-                vec = studioTree.tree().getDataVector(item, "", previewEvents);
-            } else {
-                vec = studioTree.tree().getDataVector(item, "");
-            }
-
-            System.out.println("result = " + vec.getSize());
-            H1F h1d = H1F.create(item, 100, vec);
-            h1d.setTitle(item);
-            h1d.setTitleX(item);
+    public H1F scanTreeItem(TreePath item) {
+        // if (this.studioTree.tree().hasBranch(item) == true) {
+        TreePath[] paths = {item};
+        // List<Double> vector =
+        // studioTree.getVector(item,studioTree.getSelector());
+        System.out.println("getting vector for item = " + item);
+        List<DataVector> vec;
+        if (this.previewMode) {
+            vec = studioTree.actionTreeNode(paths, previewEvents);
+        } else {
+            vec = studioTree.actionTreeNode(paths, -1);
+        }
+        if (vec != null) {
+            System.out.println("result = " + vec.get(0).size());
+            H1F h1d = H1F.create(item.toString(), 100, vec.get(0));
+            h1d.setTitle(item.toString());
+            h1d.setTitleX(item.toString());
             h1d.setTitleY("Entries");
             return h1d;
-            //h1d.setOptStat(11111);
-            //h1d.setLineColor(1);
-            //h1d.setFillColor(43);
         }
+        // h1d.setOptStat(11111);
+        // h1d.setLineColor(1);
+        // h1d.setFillColor(43);
+
         return null;
     }
 
-    public H2F scanTreeItemH2F(String item) {
-        if (this.studioTree.tree().hasBranch(item) == true&&this.studioTree.tree().hasBranch(lastLeaf) == true) {
-            System.out.println("Scan tree item h2f");
-            // List<Double> vector =
-            // studioTree.getVector(item,studioTree.getSelector());
-            System.out.println("getting vector for item = " + item);
-            DataVector vec1;
-            DataVector vec2;
-
-            if (this.previewMode) {
-                vec1 = studioTree.tree().getDataVector(item, "", previewEvents);
-                vec2 = studioTree.tree().getDataVector(lastLeaf, "", previewEvents);
-            } else {
-                vec1 = studioTree.tree().getDataVector(item, "");
-                vec2 = studioTree.tree().getDataVector(lastLeaf, "");
-
-            }
-
-            System.out.println("result = " + vec1.getSize()+" "+vec2.getSize());
-            H2F h2d = H2F.create(item, 100,100, vec1,vec2);
-            h2d.setTitle(item);
-            h2d.setTitleX(item);
-            h2d.setTitleY(lastLeaf);
+    public H2F scanTreeItemH2F(TreePath item) {
+        TreePath[] paths = {lastLeaf, item};
+        System.out.println("getting vector for item = " + item);
+        List<DataVector> vec;
+        if (this.previewMode) {
+            vec = studioTree.actionTreeNode(paths, previewEvents);
+        } else {
+            vec = studioTree.actionTreeNode(paths, -1);
+        }
+        if (vec != null) {
+            H2F h2d = H2F.create(item.toString(), 100, 100, vec.get(0), vec.get(1));
+            h2d.setTitle(item.toString()+":"+lastLeaf.toString());
+            h2d.setTitleX(item.toString());
+            h2d.setTitleY(lastLeaf.toString());
             return h2d;
-            //h1d.setOptStat(11111);
-            //h1d.setLineColor(1);
-            //h1d.setFillColor(43);
         }
         return null;
     }
 
-    public void processPlay(){
+    public void processPlay() {
         System.out.println("---> Replaying all the descriptors from the tree");
-        if(this.previewMode==true){
+        if (this.previewMode == true) {
             this.analyzer.process(studioTree.tree(), 1000);
         } else {
             this.analyzer.process(studioTree.tree());
@@ -548,12 +537,13 @@ public class StudioUI implements MouseListener, ActionListener {
      * public void fillDescriptors(){ this.analyzer. }
      */
 
-	/*public void updateTree() {
-		DefaultTreeModel model = new DefaultTreeModel(studioTree.getTree());
-		this.jtree.setModel(model);
-		DefaultTreeModel modelAnalyzer = new DefaultTreeModel(this.analyzer.getTree());
-		this.jtreeAnalyzer.setModel(modelAnalyzer);
-	}*/
+    /*
+     * public void updateTree() { DefaultTreeModel model = new
+     * DefaultTreeModel(studioTree.getTree()); this.jtree.setModel(model);
+     * DefaultTreeModel modelAnalyzer = new
+     * DefaultTreeModel(this.analyzer.getTree());
+     * this.jtreeAnalyzer.setModel(modelAnalyzer); }
+     */
 
     public static void main(String[] args) {
         GStyle.getGraphErrorsAttributes().setMarkerStyle(0);
@@ -562,11 +552,11 @@ public class StudioUI implements MouseListener, ActionListener {
         GStyle.getGraphErrorsAttributes().setLineColor(3);
         GStyle.getGraphErrorsAttributes().setLineWidth(2);
         GStyle.getFunctionAttributes().setLineWidth(6);
-        GStyle.getAxisAttributesX().setTitleFontSize(32);
-        GStyle.getAxisAttributesX().setLabelFontSize(28);
-        GStyle.getAxisAttributesY().setTitleFontSize(32);
-        GStyle.getAxisAttributesY().setLabelFontSize(28);
-        GStyle.getH1FAttributes().setFillColor(44);
+        GStyle.getAxisAttributesX().setTitleFontSize(14);
+        GStyle.getAxisAttributesX().setLabelFontSize(12);
+        GStyle.getAxisAttributesY().setTitleFontSize(14);
+        GStyle.getAxisAttributesY().setLabelFontSize(12);
+        GStyle.getH1FAttributes().setFillColor(43);
         GStyle.getH1FAttributes().setOptStat("1110");
         TreeTextFile tree = new TreeTextFile("TextTree");
         // tree.readFile("/Users/vkotsiuba99/Desktop/pp_10k.txt");
@@ -577,25 +567,25 @@ public class StudioUI implements MouseListener, ActionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        //System.out.println("Mouse clicked!");
+        // System.out.println("Mouse clicked!");
         if (e.getClickCount() == 2) {
-            //System.out.println("Mouse Double clicked!");
+            // System.out.println("Mouse Double clicked!");
             TreePath path = this.studioTree.tree().getDynamicTree().getTree().getPathForLocation(e.getX(), e.getY());
             if (path != null) {
                 System.out.println(path.getLastPathComponent().toString());
-                H1F histogram = scanTreeItem(path.getLastPathComponent().toString());
-                if(histogram!=null){
-                    if((e.getModifiers()& InputEvent.CTRL_MASK)!=0){
+                H1F histogram = scanTreeItem(path);
+                if (histogram != null) {
+                    if ((e.getModifiers() & InputEvent.CTRL_MASK) != 0) {
                         System.out.println("Control mask");
-                        H2F h2d = scanTreeItemH2F(path.getLastPathComponent().toString());
+                        H2F h2d = scanTreeItemH2F(path);
                         drawCanvasTabbed.getCanvas().drawNext(h2d);
                         drawCanvasTabbed.getCanvas().update();
-                    }else{
-                        if((e.getModifiers() & InputEvent.SHIFT_MASK) != 0){
+                    } else {
+                        if ((e.getModifiers() & InputEvent.SHIFT_MASK) != 0) {
                             System.out.println("Drawing same");
-                            drawCanvasTabbed.getCanvas().draw(histogram,"same");
+                            drawCanvasTabbed.getCanvas().draw(histogram, "same");
                             drawCanvasTabbed.getCanvas().update();
-                        }else{
+                        } else {
                             drawCanvasTabbed.getCanvas().drawNext(histogram);
                             drawCanvasTabbed.getCanvas().update();
                         }
@@ -619,8 +609,8 @@ public class StudioUI implements MouseListener, ActionListener {
                 // if(cutString.contains("Selector")==true){
                 // addCut();
                 // }
-                if(lastLeaf != path.getLastPathComponent().toString()){
-                    lastLeaf = path.getLastPathComponent().toString();
+                if (lastLeaf != path) {
+                    lastLeaf = path;
                 }
             }
         }
