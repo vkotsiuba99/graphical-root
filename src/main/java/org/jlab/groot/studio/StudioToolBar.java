@@ -16,8 +16,8 @@ import javax.swing.JToolBar;
 import org.jlab.groot.tree.Tree;
 
 public class StudioToolBar {
-    private int iconSizeX = 35;
-    private int iconSizeY = 35;
+    private int iconSizeX = 25;
+    private int iconSizeY = 25;
     public JToggleButton fastButton;
     private JToolBar  toolbar = null;
     Map<String,JButton>   toolBarButtons = new HashMap<String,JButton>();
