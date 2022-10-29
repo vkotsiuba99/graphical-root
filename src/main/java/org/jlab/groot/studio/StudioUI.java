@@ -1,8 +1,6 @@
 package org.jlab.groot.studio;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,9 +29,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.jlab.groot.base.GStyle;
@@ -45,13 +40,11 @@ import org.jlab.groot.data.IDataSet;
 import org.jlab.groot.graphics.EmbeddedCanvas;
 import org.jlab.groot.graphics.EmbeddedCanvasTabbed;
 import org.jlab.groot.tree.DynamicTree;
-import org.jlab.groot.tree.Tree;
 import org.jlab.groot.tree.TreeAnalyzer;
 import org.jlab.groot.tree.TreeFile;
 import org.jlab.groot.tree.TreeProvider;
 import org.jlab.groot.ui.CutPanel;
 import org.jlab.groot.ui.DescriptorPanel;
-import org.jlab.groot.ui.TCanvas;
 import org.jlab.groot.ui.TreeEditor;
 import org.jlab.groot.tree.TreeTextFile;
 
@@ -562,7 +555,7 @@ public class StudioUI implements MouseListener, ActionListener {
         // tree.readFile("/Users/vkotsiuba99/Desktop/pp_10k.txt");
         tree.readFile("src/main/resources/sample_data/studio_data/pp_10k_wlab.txt");
         // StudioUI sui = new StudioUI(new RandomTree());
-        StudioUI sui = new StudioUI(tree);
+        new StudioUI(tree);
     }
 
     @Override
@@ -591,7 +584,6 @@ public class StudioUI implements MouseListener, ActionListener {
                         }
                     }
                 }
-                String cutString = path.getLastPathComponent().toString();
                 if (isTree(path.getLastPathComponent().toString())) {
                     JFrame editorFrame = new JFrame("Tree Editor:" + path.getLastPathComponent().toString());
                     TreeEditor editor = new TreeEditor(this.studioTree.tree());
