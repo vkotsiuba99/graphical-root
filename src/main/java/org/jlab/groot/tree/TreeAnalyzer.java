@@ -53,6 +53,23 @@ public class TreeAnalyzer {
         return this.datasets;
     }
 
+    public void updateDescriptor(DatasetDescriptor descriptor) {
+        List<DatasetDescriptor> desc = this.getDescriptors();
+        for(int i=0; i<desc.size(); i++){
+            if(desc.get(i).getDescName().equals(descriptor.getDescName())){
+                desc.remove(i);
+                desc.add(i,descriptor);
+                System.out.println("Updating descriptor"+descriptor.getDescName());
+            }
+        }
+        System.out.println("Printing datasets:"+desc.size());
+        for(DatasetDescriptor d1 : desc){
+            System.out.println(d1.getDescName());
+        }
+        this.datasets = desc;
+    }
+
+
     /*
      public DefaultMutableTreeNode getTree() {
         DefaultMutableTreeNode root         = new DefaultMutableTreeNode("Analyzer");
