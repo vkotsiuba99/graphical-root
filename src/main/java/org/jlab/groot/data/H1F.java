@@ -239,7 +239,7 @@ public class H1F  implements IDataSet {
         for(int loop = 0; loop < this.histogramData.length; loop++){
             entries += (int) this.histogramData[loop];
         }
-        return entries;
+        return histogramEntries;
     }
     /**
      * Calculates the mean of the data in the histogram
@@ -421,6 +421,11 @@ public class H1F  implements IDataSet {
     public void fill(DataVector vec){
         for(int loop = 0; loop < vec.getSize(); loop++){
             this.fill(vec.getValue(loop));
+        }
+    }
+    public void fill(DataVector vec, DataVector weight){
+        for(int loop = 0; loop < vec.getSize(); loop++){
+            this.fill(vec.getValue(loop),weight.getValue(loop));
         }
     }
 
