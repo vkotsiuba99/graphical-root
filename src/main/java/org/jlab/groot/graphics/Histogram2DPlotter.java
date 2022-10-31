@@ -126,6 +126,7 @@ public class Histogram2DPlotter implements IDataSetPlotter {
                 }
             }
         }
+        //System.out.println(this.dataRegion.toString());
         return this.dataRegion;
     }
 
