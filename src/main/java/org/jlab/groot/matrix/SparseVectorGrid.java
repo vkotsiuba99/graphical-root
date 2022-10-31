@@ -29,6 +29,10 @@ public class SparseVectorGrid {
 
     public HashMap<Long,DataVector> getGrid(){ return binMap;}
 
+    public int getVectorSize(){
+        return this.vectorSize;
+    }
+
 
     public void addBin(int[] index){
         Long key = indexer.getKey(index);
