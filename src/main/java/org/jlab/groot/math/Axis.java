@@ -9,6 +9,7 @@ public class Axis implements Serializable {
     private String axisTitle = "x";
     private double minVal;
     private double maxVal;
+    private boolean isUniform = true;
 
     /**
      * Creates a default axis with 1 bin, a minimum value of 0, and maximum
@@ -25,6 +26,7 @@ public class Axis implements Serializable {
      */
     public Axis(double[] limits) {
         this.set(limits);
+        this.isUniform = false;
     }
 
     /**
@@ -51,7 +53,6 @@ public class Axis implements Serializable {
         for (int i=0; i<limits.length; i++) {
             axisMargins[i] = limits[i];
         }
-
         numBins = axisMargins.length - 1;
         minVal = axisMargins[0];
         maxVal = axisMargins[numBins];
