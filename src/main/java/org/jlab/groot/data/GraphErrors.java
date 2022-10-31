@@ -2,6 +2,7 @@ package org.jlab.groot.data;
 
 import org.jlab.groot.base.DatasetAttributes;
 import org.jlab.groot.base.GStyle;
+import org.jlab.groot.io.TextFileReader;
 import org.jlab.groot.math.Func1D;
 import org.jlab.groot.ui.PaveText;
 
@@ -208,6 +209,29 @@ public class GraphErrors implements IDataSet {
             this.addPoint( gr.getDataX(i),gr.getDataY(i),
                     gr.getDataEX(i),gr.getDataEY(i)
             );
+        }
+    }
+
+    public void readFile(String filename){
+        TextFileReader reader = new TextFileReader();
+        reader.openFile(filename);
+        this.reset();
+        while(reader.readNext()==true){
+            if(reader.getDataSize()==2){
+                int[] index = new int[]{0,1};
+                double[] points = reader.getAsDouble(index);
+                this.addPoint(points[0],points[1],0.0,0.0);
+            }
+            if(reader.getDataSize()==3){
+                int[] index = new int[]{0,1,2};
+                double[] points = reader.getAsDouble(index);
+                this.addPoint(points[0],points[1],0.0,points[2]);
+            }
+            if(reader.getDataSize()>3){
+                int[] index = new int[]{0,1,2,3};
+                double[] points = reader.getAsDouble(index);
+                this.addPoint(points[0],points[1],points[2],points[3]);
+            }
         }
     }
 
