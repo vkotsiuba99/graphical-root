@@ -315,6 +315,10 @@ public class H1F  implements IDataSet {
         initDataStore(bins);
     }
 
+    public double getIntegral(){
+        return integral();
+    }
+
     public double integral(){
         return this.integral(0, this.histogramData.length-1);
     }
@@ -878,6 +882,7 @@ public class H1F  implements IDataSet {
         stat.addText("RMS",String.format("%.3f", this.getRMS()));
         stat.addText("Underflow",Integer.toString(this.histogramUnderFlow));
         stat.addText("Overflow",Integer.toString(this.histogramOverFlow));
+        stat.addText("Integral",String.format("%.3f", this.getIntegral()));
 
         if(this.fittedFunction!=null){
             stat.addText("#chi^2/NDF",
