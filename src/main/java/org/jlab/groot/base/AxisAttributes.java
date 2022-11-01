@@ -214,7 +214,9 @@ public class AxisAttributes implements Cloneable {
     }
     @Override
     public AxisAttributes clone() throws CloneNotSupportedException {
-        return (AxisAttributes) super.clone();
+        AxisAttributes copy = (AxisAttributes) super.clone();
+        copy.range = (Dimension1D) range.clone();
+        return  copy;
     }
 
     public void setLabelFontName(String fn) {

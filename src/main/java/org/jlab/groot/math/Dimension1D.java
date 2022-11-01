@@ -3,7 +3,7 @@ package org.jlab.groot.math;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dimension1D {
+public class Dimension1D implements Cloneable{
 
     public final double SMALL_NUMBER = 10e-25;
     double dimMin  = 0.0;
@@ -40,6 +40,9 @@ public class Dimension1D {
         return this.dimMax;
     }
 
+    public Dimension1D clone() throws CloneNotSupportedException{
+        return (Dimension1D) super.clone();
+    }
     public void copy(Dimension1D dim){
         this.setMinMax(dim.getMin(), dim.getMax());
     }
