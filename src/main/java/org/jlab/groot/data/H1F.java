@@ -27,11 +27,11 @@ public class H1F  implements IDataSet {
      *  value to 1, and creates 1 bin.
      */
     public H1F() {
-        setName("default");
-        setTitle("default");
         set(1,0.0,1.0);
         initDataStore(1);
         this.initAttributes();
+        setName("default");
+        setTitle("default");
     }
 
     /**
@@ -46,12 +46,12 @@ public class H1F  implements IDataSet {
      * @param xMax		the desired maximum value on the x axis
      */
     public H1F(String hName, String xTitle, String yTitle, int bins, double xMin, double xMax) {
-        setName(hName);
         set(bins, xMin, xMax);
         initDataStore(bins);
         this.initAttributes();
         setTitleX(xTitle);
         setTitleY(yTitle);
+        setName(hName);
     }
 
     /**
@@ -64,12 +64,12 @@ public class H1F  implements IDataSet {
      * @param binHeights	a double array of the heights of the bins
      */
     public H1F(String name, double xMin, double xMax, float[] binHeights) {
-        setName(name);
         set(binHeights.length, xMin, xMax);
         for (int i = 0; i < binHeights.length; i++) {
             histogramData[i] = binHeights[i];
         }
         this.initAttributes();
+        setName(name);
     }
 
     /**
@@ -82,9 +82,9 @@ public class H1F  implements IDataSet {
      * @param xMax		The desired maximum x-axis value
      */
     public H1F(String name, int bins, double xMin, double xMax) {
-        setName(name);
         set(bins, xMin, xMax);
         this.initAttributes();
+        setName(name);
     }
 
     /**
@@ -98,10 +98,10 @@ public class H1F  implements IDataSet {
      * @param xMax		The desired maximum x-axis value
      */
     public H1F(String name, String title, int bins, double xMin, double xMax) {
-        setName(name);
-        setTitle(title);
         set(bins, xMin, xMax);
         this.initAttributes();
+        setName(name);
+        setTitle(title);
     }
 
     /**
@@ -113,11 +113,10 @@ public class H1F  implements IDataSet {
      * @param xMax		The desired maximum x-axis value
      */
     public H1F(String name, String title, double xMin, double xMax)  {
-        setName(name);
-        setTitle(title);
         set((int)(xMax - xMin), xMin, xMax);
         this.initAttributes();
-
+        setName(name);
+        setTitle(title);
     }
 
     public final void initAttributes(){
