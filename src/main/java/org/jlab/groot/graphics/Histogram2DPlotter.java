@@ -1,6 +1,5 @@
 package org.jlab.groot.graphics;
 
-import org.jlab.groot.graphics.IDataSetPlotter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import org.jlab.groot.base.TColorPalette;
@@ -118,7 +117,7 @@ public class Histogram2DPlotter implements IDataSetPlotter {
         return this.dataRegion;
     }
 
-    public Histogram2DPlotter setPalette(TColorPalette palette) {
+    Histogram2DPlotter setPalette(TColorPalette palette) {
         this.palette = palette;
         return this;
     }
