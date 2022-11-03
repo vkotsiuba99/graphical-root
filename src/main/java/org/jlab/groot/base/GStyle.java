@@ -1,6 +1,7 @@
 package org.jlab.groot.base;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.io.File;
 
 public class GStyle {
@@ -17,8 +18,17 @@ public class GStyle {
     public static float[]  dashPattern1 = new float[]{10.0f,5.0f};
     public static float[]  dashPattern2 = new float[]{10.0f,5.0f,2.0f,5.0f};
     public static float[]  dashPattern3 = new float[]{2.0f,5.0f,2.0f,5.0f};
+    static TColorPalette palette = new TColorPalette();
 
     public static Integer    graphicsFrameLineWidth = 1;
+
+    public static void setPalette(String palName) {
+        palette.setPalette(palName);
+    }
+
+    public static TColorPalette getPalette(){
+        return new TColorPalette(palette);
+    }
 
     public static BasicStroke getStroke(int type){
         switch (type){
@@ -104,5 +114,9 @@ public class GStyle {
 
     public static void setWorkingDirectory(String workingDirectory) {
         GStyle.workingDirectory = workingDirectory;
+    }
+
+    public static void setBackgroundColor(Color bgColor) {
+        palette.setBackgroundColor(bgColor);
     }
 }
