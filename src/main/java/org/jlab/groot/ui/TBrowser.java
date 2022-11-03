@@ -22,6 +22,7 @@ import org.jlab.groot.data.H1F;
 import org.jlab.groot.data.IDataSet;
 import org.jlab.groot.data.TDirectory;
 import org.jlab.groot.graphics.EmbeddedCanvas;
+import org.jlab.groot.graphics.EmbeddedCanvasTabbed;
 import org.jlab.groot.math.FunctionFactory;
 
 public class TBrowser extends JFrame {
@@ -31,6 +32,8 @@ public class TBrowser extends JFrame {
     private JSplitPane      splitPane;
     private int             lastCanvasNumber = 0;
     private Map<String,EmbeddedCanvas>  canvasMap = new LinkedHashMap<String,EmbeddedCanvas>();
+    private EmbeddedCanvasTabbed        canvasTabbed = null;
+
     private TDirectory      browserDir = null;
 
     JTabbedPane tabbedPane;
@@ -75,8 +78,8 @@ public class TBrowser extends JFrame {
         splitPane.setLeftComponent(scroll);
 
         tabbedPane = new JTabbedPane();
-
-        splitPane.setRightComponent(tabbedPane);
+        canvasTabbed = new EmbeddedCanvasTabbed();
+        splitPane.setRightComponent(this.canvasTabbed);
 
         mainPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         mainPanel.setLayout(new BorderLayout());
@@ -120,8 +123,12 @@ public class TBrowser extends JFrame {
                     if(browserDir.getObject(objectPath)!=null){
                         System.out.println("--> " + objectPath);
                         IDataSet data = browserDir.getObject(objectPath);
-                        canvasList.get(0).drawNext(data);
-                        canvasList.get(0).update();
+                        canvasTabbed.getCanvas().drawNext(data);
+
+                        canvasTabbed.getCanvas().update();
+
+                        //canvasList.get(0).drawNext(data);
+                        //canvasList.get(0).update();
                     }
                 }
             }
