@@ -13,6 +13,8 @@ public class H2F implements IDataSet {
     private String hName = "basic2D";
     private Axis xAxis = new Axis();
     private Axis yAxis = new Axis();
+    private long histogramUniqueID = 0L;
+
     private float[] hBuffer;
     private MultiIndex offset;
 
@@ -78,6 +80,9 @@ public class H2F implements IDataSet {
         initAttributes();
         this.setTitle(title);
     }
+
+    public H2F  setUniqueID(long id){ this.histogramUniqueID = id; return this;}
+    public long getUniqueID(){ return this.histogramUniqueID;}
 
     private void initAttributes() {
         try {
