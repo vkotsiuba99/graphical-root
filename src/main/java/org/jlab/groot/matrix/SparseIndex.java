@@ -1,6 +1,6 @@
 package org.jlab.groot.matrix;
 
-import org.jlab.hipo.io.HipoByteUtils;
+import org.jlab.jnp.hipo.data.HipoByteUtils;
 
 public class SparseIndex {
 
