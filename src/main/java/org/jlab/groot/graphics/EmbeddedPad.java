@@ -386,6 +386,7 @@ public class EmbeddedPad {
             axisFrame.getAxisY().setTitle(datasetPlotters.get(0).getDataSet().getAttributes().getTitleY());
             axisFrame.getAxisX().setTitle(datasetPlotters.get(0).getDataSet().getAttributes().getTitleX());
         }
+
         if (ds instanceof Func1D) {
             this.addPlotter(new FunctionPlotter(ds));
         }
@@ -399,6 +400,7 @@ public class EmbeddedPad {
         }
         if (ds instanceof H2F) {
             axisFrame.getAxisZ().getAttributes().setShowAxis(true);
+            axisFrame.setDrawAxisZ(true);
             this.addPlotter(new Histogram2DPlotter(ds).setPalette(attr.getPalette()));
         }
 

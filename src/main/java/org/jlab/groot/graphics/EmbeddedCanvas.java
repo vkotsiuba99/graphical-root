@@ -194,6 +194,7 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
      */
     public void draw(IDataSet ds) {
         draw(ds, "");
+
     }
 
     /**
@@ -204,6 +205,7 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
      */
     public void draw(IDataSet ds, String options) {
         this.getPad(activePad).draw(ds, options);
+        update();
     }
 
     /**
@@ -262,11 +264,12 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
             int w = this.getSize().width;
             int h = this.getSize().height;
             g2d.setColor(Color.WHITE);
+            //g2d.setColor(new Color(200,200,200));
             g2d.fillRect(0, 0, w, h);
             updateCanvasPads(w, h);
 
             PadMargins margins = new PadMargins();
-
+            //System.out.println(" margins ");
             for (int i = 0; i < canvasPads.size(); i++) {
                 EmbeddedPad pad = canvasPads.get(i);
                 pad.getAxisFrame().updateMargins(g2d);
