@@ -1,5 +1,6 @@
 package org.jlab.groot.graphics;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -212,6 +213,9 @@ public class EmbeddedPad {
             );
 
             g2d.setClip(rect);
+
+            g2d.setColor(Color.white);
+            g2d.fill(rect);
 
             for (IDataSetPlotter plotter : this.datasetPlotters) {
                 plotter.draw(g2d, axisFrame);
