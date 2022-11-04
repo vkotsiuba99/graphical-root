@@ -383,6 +383,7 @@ public class EmbeddedPad {
             this.datasetPlotters.clear();
         }
         if (datasetPlotters.isEmpty()) {
+            axisFrame.setDrawAxisZ(false);
             axisFrame.getAxisY().setTitle(ds.getAttributes().getTitleY());
             axisFrame.getAxisX().setTitle(ds.getAttributes().getTitleX());
             this.setTitle(ds.getAttributes().getTitle());
