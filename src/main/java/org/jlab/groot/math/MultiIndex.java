@@ -3,6 +3,7 @@ package org.jlab.groot.math;
 import java.io.Serializable;
 
 public class MultiIndex implements Serializable {
+
     private Integer indexDim;
     private Integer[] dimSizes;
     private Integer[] currentIndex;
@@ -35,7 +36,6 @@ public class MultiIndex implements Serializable {
         indexDim = d.length;
         dimSizes = new Integer[d.length];
         currentIndex = new Integer[d.length];
-
         for (int i = 0; i < d.length; i++) {
             dimSizes[i] = d[i];
             currentIndex[i] = -1;
