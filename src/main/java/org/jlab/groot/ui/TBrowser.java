@@ -1,14 +1,21 @@
 package org.jlab.groot.ui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -25,9 +32,10 @@ import org.jlab.groot.graphics.EmbeddedCanvas;
 import org.jlab.groot.graphics.EmbeddedCanvasTabbed;
 import org.jlab.groot.math.FunctionFactory;
 
-public class TBrowser extends JFrame {
+public class TBrowser extends JFrame implements ActionListener {
 
     JPanel  mainPanel = new JPanel();
+    private JMenuBar menuBar = null;
     private JTree           canvasTree;
     private JSplitPane      splitPane;
     private int             lastCanvasNumber = 0;
@@ -44,6 +52,7 @@ public class TBrowser extends JFrame {
         super();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.initUI();
+        this.initMenu();
         this.addCanvas();
         this.addCanvas();
         this.initTree();
@@ -55,6 +64,7 @@ public class TBrowser extends JFrame {
         super();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.initUI();
+        this.initMenu();
         this.addCanvas();
         this.addCanvas();
         this.initTree();
@@ -67,6 +77,17 @@ public class TBrowser extends JFrame {
         this.browserDir = dir;
         DefaultMutableTreeNode root = dir.getTreeNode();
         this.updateTreeModel(root);
+    }
+
+
+    private void initMenu(){
+        menuBar = new JMenuBar();
+        JMenu menuFile   = new JMenu("File");
+        JMenuItem miOpen = new JMenuItem("Open");
+        miOpen.addActionListener(this);
+        menuFile.add(miOpen);
+        menuBar.add(menuFile);
+        this.setJMenuBar(menuBar);
     }
 
     private void initUI(){
@@ -103,9 +124,7 @@ public class TBrowser extends JFrame {
         this.canvasTree.setModel(new DefaultTreeModel(node));
     }
 
-    private void initMenu(){
 
-    }
 
     public void doMouseClicked(MouseEvent me){
         if(me.getClickCount()==2){
@@ -197,5 +216,25 @@ public class TBrowser extends JFrame {
         DefaultMutableTreeNode node = dir.getTreeNode();
         br.updateTreeModel(node);
                 */
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().compareTo("Open")==0){
+            final JFileChooser fc = new JFileChooser();
+            int returnVal = fc.showOpenDialog(this);
+
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                //This is where a real application would open the file.
+                System.out.println("Opening: " + file.getName() + "." + "\n"
+                        + " path : " + file.getAbsolutePath());
+                TDirectory dir = new TDirectory();
+                dir.readFile(file.getAbsolutePath());
+                this.setDirectory(dir);
+            } else {
+                System.out.println("Open command cancelled by user." + "\n");
+            }
+        }
     }
 }
