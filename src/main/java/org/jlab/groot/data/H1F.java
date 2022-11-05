@@ -422,10 +422,10 @@ public class H1F  implements IDataSet {
             histogramData[bin] = (float) (histogramData[bin] + 1.0);
             histogramDataError[bin] = (float) Math.sqrt(Math.abs(histogramData[bin]));
         } else {
-            if(bin<0){
-                this.histogramUnderFlow++;
-            } else {
+            if(bin<-1){
                 this.histogramOverFlow++;
+            } else {
+                this.histogramUnderFlow++;
             }
         }
     }
@@ -443,10 +443,10 @@ public class H1F  implements IDataSet {
             histogramData[bin] = (float) (histogramData[bin] + weight);
             histogramDataError[bin] = (float) Math.sqrt(Math.abs(histogramData[bin]));
         } else {
-            if(bin<0){
-                this.histogramUnderFlow++;
-            } else {
+            if(bin<-1){
                 this.histogramOverFlow++;
+            } else {
+                this.histogramUnderFlow++;
             }
         }
     }
