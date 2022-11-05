@@ -79,6 +79,10 @@ public class TCanvas extends JFrame implements ActionListener {
         return this.canvas;
     }
 
+    public EmbeddedPad getPad(){
+        return this.canvas.getPad();
+    }
+
     public void divide(int xsize, int ysize){
         this.canvas.divide(xsize, ysize);
     }
