@@ -41,6 +41,9 @@ public class EmbeddedPad {
     Point2D  legendPosition = new Point2D.Double(20,10);
     private boolean drawLegend = false;
 
+    private List<PaveText>   padTexts = new ArrayList<PaveText>();
+    private List<LatexText>  padLatexText = new ArrayList<LatexText>();
+
     public EmbeddedPad() {
 
     }
@@ -63,8 +66,17 @@ public class EmbeddedPad {
         return this;
     }
 
+    public void addText(PaveText text){
+        this.padTexts.add(text);
+    }
+
+    public void addLatex(LatexText text){
+        this.padLatexText.add(text);
+    }
+
     public void clear() {
         this.datasetPlotters.clear();
+        this.padTexts.clear();
     }
 
     public Map<String, IDataSet> getObjectMap() {
@@ -274,6 +286,17 @@ public class EmbeddedPad {
 
 
             /*DRAWING THE LEGEND*/
+            if(this.padLatexText.size()>0){
+                int x = (int) (axisFrame.getFrameDimensions().getDimension(0).getMin()
+                );
+                int y = (int) (axisFrame.getFrameDimensions().getDimension(1).getMin() );
+
+                //System.out.println(" XY = " + x + " , " + y);
+                for(LatexText pt : this.padLatexText){
+                    pt.drawString(g2d, (int) (x + pt.getX()),
+                            (int) ( y + pt.getY()), 0,0);
+                }
+            }
 
             if(this.drawLegend==true){
                 legend = new PaveText(2);
