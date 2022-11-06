@@ -141,8 +141,9 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
      * changes current active drawing pad to index=pad
      *
      * @param pad index of the pad
+     * @return returns canvas object
      */
-    public void cd(int pad) {
+    public EmbeddedCanvas cd(int pad) {
         if (pad < 0) {
             activePad = 0;
         } else if (pad >= this.canvasPads.size()) {
@@ -150,6 +151,7 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
         } else {
             activePad = pad;
         }
+        return this;
     }
 
     /**
