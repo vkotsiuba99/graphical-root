@@ -76,6 +76,7 @@ public class EmbeddedPad {
 
     public void clear() {
         this.datasetPlotters.clear();
+        this.axisFrame.setDrawAxisZ(false);
         this.padTexts.clear();
     }
 
@@ -455,10 +456,18 @@ public class EmbeddedPad {
     }
 
     public void draw(IDataSet ds, String options) {
+
         ds.getAttributes().setDrawOptions(options);
+        axisFrame.setDrawAxisZ(false);
+        axisFrame.getAxisZ().getAttributes().setShowAxis(false);
+        //System.out.println(" drawing data set " + ds.getName());
+        //System.out.println(" flag before = " + axisFrame.getAxisZ().getAttributes().showAxis());
+
         if (options.contains("same") == false) {
             this.datasetPlotters.clear();
+            axisFrame.setDrawAxisZ(false);
         }
+
         if (datasetPlotters.isEmpty()) {
             axisFrame.setDrawAxisZ(false);
             axisFrame.getAxisY().setTitle(ds.getAttributes().getTitleY());
@@ -475,6 +484,7 @@ public class EmbeddedPad {
 
         if (ds instanceof H1F) {
             this.addPlotter(new HistogramPlotter(ds, options));
+            axisFrame.getAxisZ().getAttributes().setShowAxis(false);
             H1F h = (H1F) ds;
             if (h.getFunction() != null) {
                 this.addPlotter(new FunctionPlotter(h.getFunction()));
@@ -493,6 +503,8 @@ public class EmbeddedPad {
                 this.addPlotter(new FunctionPlotter(gr.getFunction()));
             }
         }
+
+        //System.out.println(" flag = " + axisFrame.getAxisZ().getAttributes().showAxis());
         //axisFrame.getAxisY().setTitle(datasetPlotters.get(0).getDataSet().getAttributes().getTitleY());
         //axisFrame.getAxisX().setTitle(datasetPlotters.get(0).getDataSet().getAttributes().getTitleX());
     }
