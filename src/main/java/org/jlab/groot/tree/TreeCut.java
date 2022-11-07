@@ -137,7 +137,8 @@ public class TreeCut {
                     .operator(operatorOR)
                     .operator(operatorGT)
                     .operator(operatorLT)
-                    .operator(operatorEQ);
+                    .operator(operatorEQ)
+                    .operator(operatorNOTEQ);
             builder.variables(variables);
             expr = builder.build();
         }
