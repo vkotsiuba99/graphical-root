@@ -209,6 +209,41 @@ public class Tree implements ITree {
     public DataVector  getDataVector(String expression, String tcut){
         return getDataVector(expression,tcut,-1);
     }
+
+    public List<DataVector> getDataVectors(String expression, String tcut, int limit){
+        String[] tokens = expression.split(":");
+        List<TreeExpression> expressions = new ArrayList<TreeExpression>();
+        List<DataVector>         vectors = new ArrayList<DataVector>();
+
+        int nexp = tokens.length;
+        for(int i = 0; i < nexp; i++){
+            TreeExpression exp = new TreeExpression("oper",tokens[i],getListOfBranches());
+            expressions.add(exp);
+            vectors.add(new DataVector());
+        }
+
+        TreeCut        cut = new TreeCut("cut",tcut,getListOfBranches());
+
+        int       counter = 0;
+        boolean    status = true;
+        int      nvectors = vectors.size();
+
+        if(limit<0) counter = -5;
+
+        while(status==true&&counter<limit){
+            status = readNext();
+            if(status == true ){
+                if(cut.isValid(this)>0.5){
+                    for(int v = 0; v < nvectors; v++){
+                        double value = expressions.get(v).getValue(this);
+                        vectors.get(v).add(value);
+                    }
+                }
+            }
+            if(limit>0) counter++;
+        }
+        return vectors;
+    }
     /**
      * returns data vector filled with values evaluated with expression given
      * for entries that pass the given cut. The limit is set on variables.
@@ -224,9 +259,12 @@ public class Tree implements ITree {
         TreeExpression exp = new TreeExpression("oper",expression,getListOfBranches());
         TreeCut        cut = new TreeCut("cut",tcut,getListOfBranches());
         int status = 0;
+        //System.out.println(" N-Entries = " + nentries);
         for(int i = 0; i < nentries; i++){
             status = readEntry(i);
+            //System.out.println("entry = " + i + " status = " + status);
             if(status>0){
+                //System.out.println("cut value = " + cut.isValid(this));
                 if(cut.isValid(this)>.5){
                     double result = exp.getValue(this);
                     vec.add(result);
