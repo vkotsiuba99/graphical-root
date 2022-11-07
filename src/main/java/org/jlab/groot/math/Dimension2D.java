@@ -2,7 +2,7 @@ package org.jlab.groot.math;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.geometry.Point2D;
+//import javafx.geometry.Point2D;
 
 public class Dimension2D {
 
@@ -72,11 +72,11 @@ public class Dimension2D {
         );
     }
 
-    public Point2D getPoint( double x, double y, Dimension2D dim){
+    /*public Point2D getPoint( double x, double y, Dimension2D dim){
         double xc = this.dimensions.get(0).convert(x, dim.getDimension(0));
         double yc = this.dimensions.get(1).convert(y, dim.getDimension(1));
         return new Point2D( xc, yc);
-    }
+    }*/
 
     public static void main(String[] args){
         Dimension2D dim = new Dimension2D(0.0,100.0,0.,50.0);
@@ -84,7 +84,7 @@ public class Dimension2D {
         System.out.println(dim);
         dim.grow(dim2);
         System.out.println(dim);
-        Point2D point = dim.getPoint(0.0,1.0, dim2);
-        System.out.println(point);
+        //Point2D  point = dim.getPoint(0.0,1.0, dim2);
+        //System.out.println(point);
     }
 }
