@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -95,6 +96,7 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
 
     public EmbeddedCanvas() {
         super();
+        Locale.setDefault(Locale.US);
         //this.setSize(500, 400);
         this.setPreferredSize(new Dimension(500, 400));
 
@@ -106,6 +108,7 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
 
     public EmbeddedCanvas(int xsize, int ysize) {
         super();
+        Locale.setDefault(Locale.US);
         //this.setSize(500, 400);
         this.setPreferredSize(new Dimension(xsize, ysize));
         this.setSize(xsize, ysize);
@@ -116,6 +119,8 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
     }
 
     public EmbeddedCanvas(EmbeddedPad pad) {
+        super();
+        Locale.setDefault(Locale.US);
         this.setPreferredSize(new Dimension(500, 400));
         this.createPopupMenu();
     }
