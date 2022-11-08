@@ -12,12 +12,12 @@ public class H1F  implements IDataSet {
     Axis  xAxis;
     Axis  yAxis;
 
-    float[]    histogramData;
-    float[]    histogramDataError;
+    double[]    histogramData;
+    double[]    histogramDataError;
     String     histName   = "";
-    int        histogramUnderFlow = 0;
-    int        histogramOverFlow  = 0;
-    int        histogramEntries   = 0;
+    long        histogramUnderFlow = 0L;
+    long        histogramOverFlow  = 0L;
+    long        histogramEntries   = 0L;
     long       histogramUniqueID  = 0L;
 
     DatasetAttributes hAttr     = new DatasetAttributes(DatasetAttributes.HISTOGRAM);
@@ -125,8 +125,8 @@ public class H1F  implements IDataSet {
     public H1F  setUniqueID(long id){ this.histogramUniqueID = id; return this;}
     public long getUniqueID(){ return this.histogramUniqueID;}
 
-    public int getUnderflow(){ return this.histogramUnderFlow;}
-    public int getOverflow() { return this.histogramOverFlow;}
+    public long getUnderflow(){ return this.histogramUnderFlow;}
+    public long getOverflow() { return this.histogramOverFlow;}
 
     public final void initAttributes(){
         try {
@@ -287,7 +287,7 @@ public class H1F  implements IDataSet {
         }
     }
 
-    public int getEntries(){
+    public long getEntries(){
         int entries = 0;
         for(int loop = 0; loop < this.histogramData.length; loop++){
             entries += (int) this.histogramData[loop];
@@ -390,8 +390,8 @@ public class H1F  implements IDataSet {
      */
     final void initDataStore(int size)
     {
-        histogramData      = new float[size];
-        histogramDataError = new float[size];
+        histogramData      = new double[size];
+        histogramDataError = new double[size];
     }
 
     /**
@@ -434,8 +434,8 @@ public class H1F  implements IDataSet {
     public void incrementBinContent(int bin) {
         this.histogramEntries++;
         if (bin >= 0 && bin < histogramData.length) {
-            histogramData[bin] = (float) (histogramData[bin] + 1.0);
-            histogramDataError[bin] = (float) Math.sqrt(Math.abs(histogramData[bin]));
+            histogramData[bin] =  (histogramData[bin] + 1.0);
+            histogramDataError[bin] = Math.sqrt(Math.abs(histogramData[bin]));
         } else {
             if(bin<-1){
                 this.histogramOverFlow++;
@@ -455,8 +455,8 @@ public class H1F  implements IDataSet {
     public void incrementBinContent(int bin, double weight) {
         this.histogramEntries++;
         if (bin >= 0 && bin < histogramData.length) {
-            histogramData[bin] = (float) (histogramData[bin] + weight);
-            histogramDataError[bin] = (float) Math.sqrt(Math.abs(histogramData[bin]));
+            histogramData[bin] =  (histogramData[bin] + weight);
+            histogramDataError[bin] = Math.sqrt(Math.abs(histogramData[bin]));
         } else {
             if(bin<-1){
                 this.histogramOverFlow++;
@@ -779,7 +779,10 @@ public class H1F  implements IDataSet {
      * @return		the data in the histogram
      */
     public float[] getData() {
-        return histogramData;
+        float[] data = new float[histogramData.length];
+        for(int i = 0; i < histogramData.length;i++)
+            data[i] = (float) histogramData[i];
+        return data;
     }
 
     /**
@@ -787,7 +790,11 @@ public class H1F  implements IDataSet {
      * @return		the data error in the histogram
      */
     public float[] getDataError() {
-        return histogramDataError;
+        float[] data = new float[histogramDataError.length];
+        for(int i = 0; i < histogramDataError.length;i++)
+            data[i] = (float) histogramDataError[i];
+        return data;
+        //return histogramDataError;
     }
     /**
      * Returns bin number with maximum entries.
@@ -950,11 +957,11 @@ public class H1F  implements IDataSet {
     public PaveText getStatBox() {
         PaveText stat = new PaveText(2);
         stat.addText("Name",this.getName());
-        stat.addText("Entries",Integer.toString(this.getEntries()));
+        stat.addText("Entries",Long.toString(this.getEntries()));
         stat.addText("Mean",String.format("%.3f", this.getMean()));
         stat.addText("RMS",String.format("%.3f", this.getRMS()));
-        stat.addText("Underflow",Integer.toString(this.histogramUnderFlow));
-        stat.addText("Overflow",Integer.toString(this.histogramOverFlow));
+        stat.addText("Underflow",Long.toString(this.histogramUnderFlow));
+        stat.addText("Overflow",Long.toString(this.histogramOverFlow));
         stat.addText("Integral",String.format("%.3f", this.getIntegral()));
 
         if(this.fittedFunction!=null){

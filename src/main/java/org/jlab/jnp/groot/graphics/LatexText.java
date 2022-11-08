@@ -31,6 +31,8 @@ public class LatexText {
     private Integer           textColor   = 1;
     private Color             latexTextColor = Color.BLACK;
 
+    private Font              textFont = new Font("Helvetica",Font.PLAIN,14);
+
 
     public LatexText(String text, double xc, double yc){
         this.setText(text);
@@ -63,13 +65,18 @@ public class LatexText {
         this.relativeY = yr;
     }
 
+    public final void setColor(Color color){
+        this.latexTextColor = color;
+    }
+    public final void setFont(Font font){
+        this.textFont = font;
+    }
+
     public int    getColor(){return this.textColor;}
+
     public void   setColor(int color){
         this.textColor = color;
         this.latexTextColor = Color.BLACK;//ColorPalette.getColor(textColor);
-    }
-    public void setColor(Color color){
-        this.latexTextColor = color;
     }
 
     public double getX(){ return this.relativeX;}
@@ -82,7 +89,7 @@ public class LatexText {
         if(this.latexString.getIterator().getEndIndex()>0){
             //System.out.println("INDEX = " + this.latexString.getIterator().getEndIndex());
             latexString.addAttribute(TextAttribute.FAMILY, fontname);
-            latexString.addAttribute(TextAttribute.WEIGHT,TextAttribute.WEIGHT_EXTRABOLD);
+            latexString.addAttribute(TextAttribute.WEIGHT,TextAttribute.WEIGHT_LIGHT);
         }
     }
 
@@ -108,6 +115,25 @@ public class LatexText {
         }
     }
 
+
+    public int drawString(String text, Graphics2D  g2d, int x, int y, int alignX, int alignY, int type){
+        FontMetrics fm = g2d.getFontMetrics(textFont);
+        Rectangle2D rect = fm.getStringBounds(text,g2d);
+        int  ascend   = fm.getAscent();
+        int leading   = fm.getLeading();
+        int posX = x;
+        int posY = y + ascend;
+
+        if(alignX==1) posX = (int) (posX-0.5*rect.getWidth());
+        if(alignX==2) posX = (int) (posX-rect.getWidth());
+        if(alignY==1) posY = (int) (y + 0.5*(ascend));
+        if(alignY==2) posY = (int)  y;
+        g2d.setColor(latexTextColor);
+        g2d.setFont(textFont);
+        g2d.drawString(text, posX, posY);
+        if(type==0) return (int) rect.getHeight();
+        return (int) rect.getWidth();
+    }
 
     public void drawString(Graphics2D  g2d, int x, int y, int alignX, int alignY, int rotate){
 
