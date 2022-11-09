@@ -765,7 +765,7 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
             File desktop = new File(System.getProperty("user.home"), "Desktop");
             DateFormat df = new SimpleDateFormat("MM-dd-yyyy_hh.mm.ss_aa");
             String data = df.format(new Date());
-            this.saveScreenShot(desktop.getAbsolutePath() + File.separator + "Plot_" + data + ".png");
+            this.save(desktop.getAbsolutePath() + File.separator + "Plot_" + data + ".png");
             System.out.println("Saved File:" + desktop.getAbsolutePath() + File.separator + "Plot_" + data + ".png");
         }
         if (e.getActionCommand().compareTo("Save As...") == 0) {
@@ -807,7 +807,7 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
                             "alert", JOptionPane.OK_CANCEL_OPTION);
                     if (result == JOptionPane.OK_OPTION) {
                         if (fc.getFileFilter() == filterPNG)
-                            this.saveScreenShot(file.getAbsolutePath());
+                            this.save(file.getAbsolutePath());
                         if (fc.getFileFilter() == filterTXT)
                             this.saveBins(file.getAbsolutePath());
                         GStyle.setWorkingDirectory(file.getParent());
@@ -815,7 +815,7 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
                 } else {
                     //System.out.println("saving file : " + file.getAbsolutePath());
                     if (fc.getFileFilter() == filterPNG)
-                        this.saveScreenShot(file.getAbsolutePath());
+                        this.save(file.getAbsolutePath());
                     if (fc.getFileFilter() == filterTXT)
                         this.saveBins(file.getAbsolutePath());
                     GStyle.setWorkingDirectory(file.getParent());
@@ -963,7 +963,7 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
         c.setContents(trans, null);
     }
 
-    public void saveScreenShot(String filename) {
+    public void save(String filename) {
         File imageFile = new File(filename);
         try {
             imageFile.createNewFile();

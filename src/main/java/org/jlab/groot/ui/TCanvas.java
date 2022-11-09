@@ -141,7 +141,7 @@ public class TCanvas extends JFrame implements ActionListener {
     }
 
     public void save(String filename){
-        this.canvas.saveScreenShot(filename);
+        this.canvas.save(filename);
     }
 
     private void initMenu(){
