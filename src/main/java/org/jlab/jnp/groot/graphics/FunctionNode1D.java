@@ -22,6 +22,7 @@ public class FunctionNode1D extends DataNode2D {
         this.function = f1d; resolution = res;
     }
 
+    @Override
     public Rectangle2D getDataBounds( Rectangle2D dataBounds){
 
         dataBounds.setRect(

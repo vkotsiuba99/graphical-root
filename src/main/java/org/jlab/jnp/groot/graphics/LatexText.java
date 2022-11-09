@@ -31,7 +31,7 @@ public class LatexText {
     private Integer           textColor   = 1;
     private Color             latexTextColor = Color.BLACK;
 
-    private Font              textFont = new Font("Helvetica",Font.PLAIN,14);
+    private Font              textFont = new Font("Avenir",Font.PLAIN,14);
 
 
     public LatexText(String text, double xc, double yc){
@@ -71,6 +71,8 @@ public class LatexText {
     public final void setFont(Font font){
         this.textFont = font;
     }
+
+    public final  Font getFont(){ return textFont;}
 
     public int    getColor(){return this.textColor;}
 
@@ -117,6 +119,7 @@ public class LatexText {
 
 
     public int drawString(String text, Graphics2D  g2d, int x, int y, int alignX, int alignY, int type){
+        g2d.setFont(textFont);
         FontMetrics fm = g2d.getFontMetrics(textFont);
         Rectangle2D rect = fm.getStringBounds(text,g2d);
         int  ascend   = fm.getAscent();
@@ -136,7 +139,7 @@ public class LatexText {
     }
 
     public void drawString(Graphics2D  g2d, int x, int y, int alignX, int alignY, int rotate){
-
+        g2d.setFont(textFont);
         if(rotate==LatexText.ROTATE_NONE){
             this.drawString(g2d, x, y, alignX, alignY);
             return;
@@ -161,11 +164,12 @@ public class LatexText {
     }
 
     public void drawString(Graphics2D  g2d, int x, int y, int alignX, int alignY){
-        FontMetrics fmg = g2d.getFontMetrics(new Font(this.textFamily,Font.BOLD,this.textFontSize));
+
+        g2d.setFont(textFont);
+        FontMetrics fmg = g2d.getFontMetrics(textFont);
         Rectangle2D rect = fmg.getStringBounds(this.latexString.getIterator(), 0,
                 this.latexString.getIterator().getEndIndex(),g2d);
 
-        //g2d.setFont(new Font(this.textFamily,Font.PLAIN,this.textFontSize));
         int  ascend   = fmg.getAscent();
         int leading   = fmg.getLeading();
         //System.out.println("ascend = " + ascend + " leading = " + leading);

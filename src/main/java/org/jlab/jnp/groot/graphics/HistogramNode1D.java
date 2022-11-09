@@ -24,6 +24,7 @@ public class HistogramNode1D extends DataNode2D {
         drawOptions = options;
     }
 
+    @Override
     public Rectangle2D getDataBounds( Rectangle2D dataBounds){
 
         dataBounds.setRect(h1d.getXaxis().min(), 0.0,
@@ -32,6 +33,7 @@ public class HistogramNode1D extends DataNode2D {
         return dataBounds;
     }
 
+    @Override
     public IDataSet getDataSet(){ return h1d;}
 
     @Override

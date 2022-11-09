@@ -18,6 +18,10 @@ public class TextFileReader {
     public TextFileReader(){
 
     }
+
+    public TextFileReader(String delim){
+        this.tokenizer = delim;
+    }
     /**
      * Open a text file for reading.
      * @param name name of the file
@@ -35,11 +39,16 @@ public class TextFileReader {
         }
         return true;
     }
+
+    public final void setTokenizer(String t){
+        this.tokenizer = t;
+    }
     /**
      * reads the next line in the file and populates the internal list of tokens
      * @return true if read was successful, false otherwise.
      */
     public boolean readNext(){
+
         if(this.bufferedReader==null){
             this.readLineTokens.clear();
             return false;
