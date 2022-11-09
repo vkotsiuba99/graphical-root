@@ -8,6 +8,7 @@ import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
+import javax.swing.JFrame;
 import org.jlab.jnp.graphics.attr.ColorPalette;
 
 public class LatexText {
@@ -22,10 +23,11 @@ public class LatexText {
     public  static int  ROTATE_LEFT   = 12;
     public  static int  ROTATE_RIGHT  = 13;
 
-    private String  textFamily   = "Avenir";//"Avenir";//"SansSerif";
-    private int     textFontSize = 14;
-    private Double  relativeX  = 0.0;
-    private Double  relativeY  = 0.0;
+    private String  textFamily    = "Avenir";//"Avenir";//"SansSerif";
+    private int     textFontSize  = 14;
+    private Double  relativeX     = 0.0;
+    private Double  relativeY     = 0.0;
+
     private AttributedString  latexString = null;
     private String            asciiString = "";
     private Integer           textColor   = 1;
@@ -119,18 +121,27 @@ public class LatexText {
 
 
     public int drawString(String text, Graphics2D  g2d, int x, int y, int alignX, int alignY, int type){
+
         g2d.setFont(textFont);
+
         FontMetrics fm = g2d.getFontMetrics(textFont);
         Rectangle2D rect = fm.getStringBounds(text,g2d);
-        int  ascend   = fm.getAscent();
-        int leading   = fm.getLeading();
+
+        int   ascend  = fm.getAscent();
+        int  leading  = fm.getLeading();
+        int  descent = fm.getDescent();
+        int   height  = fm.getHeight();
+
+        System.out.printf(" ascent = %3d, leading = %3d, descent = %3d, height = %3d (%3d) \n",
+                ascend,leading,descent,height,(int) rect.getHeight());
         int posX = x;
-        int posY = y + ascend;
+        int posY = y - descent;
 
         if(alignX==1) posX = (int) (posX-0.5*rect.getWidth());
         if(alignX==2) posX = (int) (posX-rect.getWidth());
-        if(alignY==1) posY = (int) (y + 0.5*(ascend));
-        if(alignY==2) posY = (int)  y;
+        if(alignY==LatexText.ALIGN_TOP) posY = (int) (y + ascend);
+        if(alignY==LatexText.ALIGN_CENTER) posY = (int)  (y + ascend - height/2);
+
         g2d.setColor(latexTextColor);
         g2d.setFont(textFont);
         g2d.drawString(text, posX, posY);
@@ -139,9 +150,11 @@ public class LatexText {
     }
 
     public void drawString(Graphics2D  g2d, int x, int y, int alignX, int alignY, int rotate){
+
         g2d.setFont(textFont);
+
         if(rotate==LatexText.ROTATE_NONE){
-            this.drawString(g2d, x, y, alignX, alignY);
+            drawString(g2d, x, y, alignX, alignY);
             return;
         }
 
@@ -155,6 +168,7 @@ public class LatexText {
         if(alignX==LatexText.ALIGN_CENTER) posX = posX + (int) (0.5*rect.getWidth());
         //if(alignX==LatexText.ALIGN_LEFT)   posX = posX + (int) rect.getWidth();
         if(alignY==LatexText.ALIGN_TOP)    posY = posY + (int) (rect.getHeight());
+        //if(alignY==LatexText.ALIGN_TOP)    posY = posY + (int) (rect.getHeight());
         //if(alignY==LatexText.ALIGN_CENTER)    posY = posY + (int) (0.5*rect.getHeight());
         AffineTransform orig = g2d.getTransform();
         g2d.rotate(-Math.PI/2);
@@ -172,12 +186,15 @@ public class LatexText {
 
         int  ascend   = fmg.getAscent();
         int leading   = fmg.getLeading();
+        int  height   = fmg.getHeight();
+        //int leading   = fmg.getLeading();
+
         //System.out.println("ascend = " + ascend + " leading = " + leading);
         int  xp     = x;
         int  yp     = y + ascend;
         if(alignX==1) xp = (int) (xp-0.5*rect.getWidth());
         if(alignX==2) xp = (int) (xp-rect.getWidth());
-        if(alignY==1) yp = (int) (y + 0.5*(ascend));
+        if(alignY==1) yp = (int) (y + 0.5*(height));
         if(alignY==2) yp = (int)  y;
         g2d.setColor(latexTextColor);
         g2d.drawString(latexString.getIterator(), xp, yp);
@@ -194,7 +211,7 @@ public class LatexText {
     }
 
     public  Rectangle2D getBounds( Graphics2D g2d){
-        FontMetrics fmg = g2d.getFontMetrics(new Font(this.textFamily,Font.BOLD,this.textFontSize));
+        FontMetrics fmg = g2d.getFontMetrics(this.textFont);
         //System.out.println(" ACCEND = " + fmg.getAscent() + " LEAD " + fmg.getLeading()
         //+ "  DESCENT " + fmg.getDescent() + "  HEIGHT = " + fmg.getHeight());
         Rectangle2D rect = fmg.getStringBounds(this.latexString.getIterator(), 0,
