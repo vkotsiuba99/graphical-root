@@ -42,6 +42,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jfree.pdf.PDFDocument;
 import org.jfree.pdf.PDFGraphics2D;
 import org.jfree.pdf.Page;
+import org.jfree.svg.SVGGraphics2D;
+import org.jfree.svg.SVGUtils;
 import org.jlab.groot.base.GStyle;
 import org.jlab.groot.base.PadMargins;
 import org.jlab.groot.base.TColorPalette;
@@ -773,6 +775,9 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
             FileFilter filterPDF = new FileNameExtensionFilter("PDF File", "pdf");
             fc.addChoosableFileFilter(filterPDF);
 
+            FileFilter filterSVG = new FileNameExtensionFilter("SVG File", "svg");
+            fc.addChoosableFileFilter(filterSVG);
+
             FileFilter filterTXT = new FileNameExtensionFilter("TXT File", "txt");
             fc.addChoosableFileFilter(filterTXT);
 
@@ -811,6 +816,8 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
                             this.save(file.getAbsolutePath(), SaveType.HIPO);
                         if (fc.getFileFilter() == filterPDF)
                             this.save(file.getAbsolutePath(), SaveType.PDF);
+                        if (fc.getFileFilter() == filterSVG)
+                            this.save(file.getAbsolutePath(), SaveType.SVG);
                         GStyle.setWorkingDirectory(file.getParent());
                     }
                 } else {
@@ -823,6 +830,8 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
                         this.save(file.getAbsolutePath(), SaveType.HIPO);
                     if (fc.getFileFilter() == filterPDF)
                         this.save(file.getAbsolutePath(), SaveType.PDF);
+                    if (fc.getFileFilter() == filterSVG)
+                        this.save(file.getAbsolutePath(), SaveType.SVG);
                     GStyle.setWorkingDirectory(file.getParent());
                 }
             }
@@ -1013,6 +1022,16 @@ public class EmbeddedCanvas extends JPanel implements MouseMotionListener, Mouse
             PDFGraphics2D g2 = page.getGraphics2D();
             this.paint(g2);
             pdfDoc.writeToFile(new File(filename));
+        }
+
+        if (saveType == SaveType.SVG) {
+            SVGGraphics2D g2 = new SVGGraphics2D(this.getSize().width, this.getSize().height);
+            this.paint(g2);
+            try {
+                SVGUtils.writeToSVG(new File(filename), g2.getSVGElement());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
