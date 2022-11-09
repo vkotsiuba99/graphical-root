@@ -122,7 +122,7 @@ public class TGCanvas extends JFrame implements ActionListener {
     }
 
     public void save(String filename){
-        this.canvas.getCanvas().save(filename);
+        this.canvas.getCanvas().saveScreenShot(filename);
     }
 
     public TGCanvas addCanvas(String name){
