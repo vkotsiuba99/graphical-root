@@ -67,7 +67,7 @@ public class TextFileReader {
                 return false;
             }
 
-            String[] tokens = line.split(this.tokenizer);
+            String[] tokens = line.trim().split(this.tokenizer);
             for(String token : tokens){
                 this.readLineTokens.add(token);
             }
