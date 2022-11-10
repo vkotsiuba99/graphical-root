@@ -9,6 +9,7 @@ import org.jlab.groot.ui.PaveText;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import org.jlab.groot.fitter.DataFitter;
 
 public class H1F  implements IDataSet {
 
@@ -440,6 +441,14 @@ public class H1F  implements IDataSet {
         incrementBinContent(xAxis.getBin(value), weight);
     }
 
+    public void fit(Func1D func,String options){
+        DataFitter.fit(func, this, options);
+        fittedFunction = func;
+    }
+
+    public void fit(Func1D func){
+        this.fit(func, "");
+    }
     /**
      * Normalizes the histogram data to the specified number
      *
