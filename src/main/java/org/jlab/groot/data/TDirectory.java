@@ -12,6 +12,7 @@ import org.jlab.groot.math.F1D;
 import org.jlab.groot.ui.TBrowser;
 import org.jlab.jnp.hipo4.data.Event;
 import org.jlab.jnp.hipo4.data.Node;
+import org.jlab.jnp.utils.options.OptionParser;
 
 public class TDirectory extends Directory<IDataSet> {
 
@@ -328,10 +329,16 @@ public class TDirectory extends Directory<IDataSet> {
 
     public static void main(String[] args){
 
+        OptionParser p = new OptionParser("hadd");
 
+        p.addRequired("-o", "output file name");
 
-        TDirectory dir = new TDirectory();
-        dir.readFile("/Users/vkotsiuba99/Desktop/CLAS12Mon_run_5038_03-28-2022_11.45.06_PM.hipo");
+        p.parse(args);
+        String outputFile = p.getOption("-o").stringValue();
+        TDirectory.addFiles(outputFile, p.getInputList());
+
+        //TDirectory dir = new TDirectory();
+        //dir.readFile("/Users/vkotsiuba99/Desktop/CLAS12Mon_run_5038_03-28-2022_11.45.06_PM.hipo");
 
 
         /*
